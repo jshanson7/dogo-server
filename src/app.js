@@ -14,7 +14,7 @@ import routers from './routers';
 const app = koa();
 
 if (app.env !== 'production' && app.env !== 'test') {
-	app.use(logger());
+  app.use(logger());
 }
 
 app.use(function *(next) {
@@ -34,7 +34,7 @@ app.use(mount('/api/v1', routers.routes()));
 app.use(compress());
 
 if (!module.parent) {
-	app.listen(3000, () => console.log('App listening on port 3000'));
+  app.listen(3000, () => console.log('App listening on port 3000'));
 }
 
 export default app;
