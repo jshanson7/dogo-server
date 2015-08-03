@@ -1,0 +1,8 @@
+{
+  "save-live-edit": true,
+  "hidden": ["node_modules/"],
+  "nodejs": ["--harmony"],
+  "debug-brk": false,
+  "preload": false,
+  "cli": true
+}
