@@ -9,8 +9,8 @@ var numberOfSeeds = 100;
 
 var users = [
   {
-    'first_name': 'Steph',
-    'last_name': 'Ryan',
+    'first_name': 'Jeff',
+    'last_name': 'Hanson',
     'created_at': new Date(),
     'updated_at': new Date(),
   },
