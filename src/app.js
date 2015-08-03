@@ -10,10 +10,12 @@ import koaValidate from 'koa-validate';
 import mount from 'koa-mount';
 import qs from 'koa-qs';
 import routers from './routers';
+import config from '../config';
 
 const app = koa();
+app.env = config.env;
 
-if (app.env !== 'production' && app.env !== 'test') {
+if (app.env === 'development') {
   app.use(logger());
 }
 
@@ -34,7 +36,7 @@ app.use(mount('/api/v1', routers.routes()));
 app.use(compress());
 
 if (!module.parent) {
-  app.listen(3000, () => console.log('App listening on port 3000'));
+  app.listen(config.port, () => console.log(`App listening on port ${config.port} env: ${app.env}`));
 }
 
 export default app;

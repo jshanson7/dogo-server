@@ -3,18 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "gulp debug",
-    "server": "gulp server",
-    "debug": "gulp debug",
-    "compile": "gulp compile",
-    "watch": "gulp watch",
+    "start": "node ./node_modules/gulp/bin/gulp debug",
+    "compile": "node ./node_modules/gulp/bin/gulp compile",
+    "watch": "node ./node_modules/gulp/bin/gulp watch",
+    "db:init": "node ./node_modules/gulp/bin/gulp db:init",
+    "db:refresh": "node ./node_modules/gulp/bin/gulp db:refresh",
     "test": "mocha --compilers js:babel/register"
   },
   "dependencies": {
-    "babel": "^5.6.14",
-    "babel-runtime": "^5.6.15",
+    "babel-runtime": "^5.8.20",
     "bookshelf": "^0.8.1",
-    "checkit": "^0.5.1",
     "knex": "^0.8.6",
     "koa": "^0.21.0",
     "koa-bodyparser": "^2.0.0",
@@ -26,9 +24,9 @@
     "koa-router": "^5.1.2",
     "koa-validate": "^0.2.11",
     "lodash": "^3.9.3",
+    "pg": "^4.4.1",
     "revalidator": "^0.3.1",
     "source-map-support": "^0.3.2",
-    "validator": "^3.41.2",
     "verror": "^1.6.0"
   },
   "devDependencies": {
@@ -37,7 +35,6 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
     "gulp-nodemon": "^2.0.3",
-    "gulp-shell": "^0.4.2",
     "mocha": "^2.2.5",
     "node-inspector": "^0.10.2",
     "run-sequence": "^1.1.1",

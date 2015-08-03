@@ -1,13 +1,11 @@
 'use strict';
 
+import { assign } from 'lodash';
 import Dog from '../models/dog';
-import Rest from './compose/rest';
+import rest from './compose/rest';
 
-const { list, show, create, destroy } = Rest(Dog);
+class DogController {};
 
-export default class DogController {
-  list = list
-  show = show
-  create = create
-  destroy = destroy
-};
+assign(DogController.prototype, rest(Dog));
+
+export default DogController;

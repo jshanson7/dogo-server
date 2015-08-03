@@ -1,13 +1,11 @@
 'use strict';
 
+import { assign } from 'lodash';
 import User from '../models/user';
-import Rest from './compose/rest';
+import rest from './compose/rest';
 
-const { list, show, create, destroy } = Rest(User);
+class UserController {};
 
-export default class UserController {
-  list = list
-  show = show
-  create = create
-  destroy = destroy
-};
+assign(UserController.prototype, rest(User));
+
+export default UserController;

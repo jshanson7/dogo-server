@@ -3,9 +3,7 @@
 import VError from 'verror';
 import { assign } from 'lodash';
 
-function getParams(ctx) {
-  return assign({}, ctx.query, ctx.request.body, ctx.params);
-}
+const getParams = (ctx) => assign({}, ctx.query, ctx.request.body, ctx.params);
 
 export default (Model) => {
   return {

@@ -1,13 +1,11 @@
 'use strict';
 
+import { assign } from 'lodash';
 import Note from '../models/note';
-import Rest from './compose/rest';
+import rest from './compose/rest';
 
-const { list, show, create, destroy } = Rest(Note);
+class NoteController {};
 
-export default class NoteController {
-  list = list
-  show = show
-  create = create
-  destroy = destroy
-};
+assign(NoteController.prototype, rest(Note));
+
+export default NoteController;
