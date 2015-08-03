@@ -1,22 +1,13 @@
 'use strict';
 
 import User from '../models/user';
-import BaseController from './base';
+import Rest from './compose/rest';
 
-export default class UserController extends BaseController {
-	list(next) {
-	  return super.list.call(this, User, next);
-	}
+const { list, show, create, destroy } = Rest(User);
 
-	show(next) {
-		return super.show.call(this, User, next);
-	}
-
-	create(next) {
-		return super.create.call(this, User, next);
-	}
-
-	destroy(next) {
-		return super.destroy.call(this, User, next);
-	}
+export default class UserController {
+  list = list
+  show = show
+  create = create
+  destroy = destroy
 };

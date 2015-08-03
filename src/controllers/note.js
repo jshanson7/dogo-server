@@ -1,22 +1,13 @@
 'use strict';
 
 import Note from '../models/note';
-import BaseController from './base';
+import Rest from './compose/rest';
 
-export default class NoteController extends BaseController {
-  list(next) {
-    return super.list.call(this, Note, next);
-  }
+const { list, show, create, destroy } = Rest(Note);
 
-  show(next) {
-    return super.show.call(this, Note, next);
-  }
-
-  create(next) {
-    return super.create.call(this, Note, next);
-  }
-
-  destroy(next) {
-    return super.destroy.call(this, Note, next);
-  }
+export default class NoteController {
+  list = list
+  show = show
+  create = create
+  destroy = destroy
 };
