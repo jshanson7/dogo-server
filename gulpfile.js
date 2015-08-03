@@ -8,7 +8,6 @@ var nodemon = require('gulp-nodemon');
 var knex = require('knex');
 var config = require('./config');
 var knexConf = require('./knexfile');
-var env = require('./env');
 
 gulp.task('default', ['debug']);
 
