@@ -3,9 +3,9 @@
 import VError from 'verror';
 import { assign } from 'lodash';
 
-const getParams = (ctx) => assign({}, ctx.query, ctx.request.body, ctx.params);
+const getParams = ctx => assign({}, ctx.query, ctx.request.body, ctx.params);
 
-export default (Model) => {
+export default Model => {
   return {
     *list(next) {
       this.body = yield Model

@@ -53,18 +53,15 @@ gulp.task('db:drop', cb => pgConn.raw('DROP DATABASE ' + config.db.name));
 
 gulp.task('migrate:latest', () => {
   const conn = getAppDBConn();
-  return conn.migrate.latest()
-    .then(() => conn.destroy());
+  return conn.migrate.latest().then(() => conn.destroy());
 });
 
 gulp.task('migrate:rollback', () => {
   const conn = getAppDBConn();
-  return conn.migrate.rollback()
-    .then(() => conn.destroy());
+  return conn.migrate.rollback().then(() => conn.destroy());
 });
 
 gulp.task('db:seed', () => {
   const conn = getAppDBConn();
-  return conn.seed.run()
-    .then(() => conn.destroy());
+  return conn.seed.run().then(() => conn.destroy());
 });

@@ -1,6 +1,7 @@
+'use strict';
 
-exports.up = function(knex, Promise) {
-  return knex.schema.createTable('users', function(t) {
+exports.up = (knex, Promise) => {
+  return knex.schema.createTable('users', t => {
     t.increments('id').primary();
     // t.uuid('uuid').primary();
     t.string('first_name').notNull();
@@ -12,6 +13,6 @@ exports.up = function(knex, Promise) {
   });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = (knex, Promise) => {
   return knex.schema.dropTable('users');
 };

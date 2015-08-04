@@ -1,13 +1,13 @@
 'use strict';
 
-var chance = require('chance').Chance();
-var breeds = require('../breeds');
-var _ = require('lodash');
-var range = _.range;
-var sample = _.sample;
-var numberOfSeeds = 100;
+const chance = require('chance').Chance();
+const breeds = require('../breeds');
+const _ = require('lodash');
+const range = _.range;
+const sample = _.sample;
+const numberOfSeeds = 100;
 
-var users = [
+const users = [
   {
     'first_name': 'Jeff',
     'last_name': 'Hanson',
@@ -20,7 +20,7 @@ var users = [
     'created_at': new Date(),
     'updated_at': new Date(),
   }
-].concat(range(3, numberOfSeeds + 1).map(function(id) {
+].concat(range(3, numberOfSeeds + 1).map(id => {
   return {
     'first_name': chance.first(),
     'last_name': chance.last(),
@@ -29,7 +29,7 @@ var users = [
   };
 }));
 
-var dogs = [
+const dogs = [
   {
     'name': 'Matza',
     'breed': 'Labradoodle',
@@ -46,7 +46,7 @@ var dogs = [
     'created_at': new Date(),
     'updated_at': new Date()
   }
-].concat(range(3, numberOfSeeds + 1).map(function(id) {
+].concat(range(3, numberOfSeeds + 1).map(id => {
   return {
     'name': chance.last(),
     'breed': sample(breeds),
@@ -57,7 +57,7 @@ var dogs = [
   };
 }));
 
-var notes = [
+const notes = [
   {
     'text': 'Matza peed in the elevator.',
     'dog_id': 1,
@@ -72,7 +72,7 @@ var notes = [
     'created_at': new Date(),
     'updated_at': new Date(),
   }
-].concat(range(3, numberOfSeeds).map(function(id) {
+].concat(range(3, numberOfSeeds).map(id => {
   return {
     'text': chance.sentence(),
     'dog_id': sample(range(1, numberOfSeeds + 1)),
@@ -82,11 +82,11 @@ var notes = [
   };
 }));
 
-exports.seed = function(knex, Promise) {
+exports.seed = (knex, Promise) => {
   return Promise.join(
-    knex('notes').del(), 
-    knex('dogs').del(), 
-    knex('users').del(), 
+    knex('notes').del(),
+    knex('dogs').del(),
+    knex('users').del(),
     knex('users').insert(users),
     knex('dogs').insert(dogs),
     knex('notes').insert(notes)

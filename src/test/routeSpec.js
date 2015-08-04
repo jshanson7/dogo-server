@@ -6,7 +6,6 @@ import app from '../app';
 const restControllers = ['users', 'dogs', 'notes'];
 const request = () => superagent(app.listen());
 
-
 describe('Routes', () => {
   describe('GET /api/v1/', () => {
     it('should return 200', (done) => {
