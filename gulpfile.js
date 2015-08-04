@@ -1,106 +1,70 @@
 'use strict';
 
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var del = require('del');
-var runSequence = require('run-sequence');
-var nodemon = require('gulp-nodemon');
-var mocha = require('gulp-spawn-mocha');
-var knex = require('knex');
-var debounce = require('lodash').debounce;
-var config = require('./config');
-var knexConf = require('./knexfile');
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+const del = require('del');
+const seq = require('run-sequence');
+const nodemon = require('gulp-nodemon');
+const mocha = require('gulp-spawn-mocha');
+const knex = require('knex');
+const debounce = require('lodash').debounce;
+const config = require('./config');
+const knexConf = require('./knexfile');
+const pgConn = knex({ client: config.db.client, connection: { host: config.db.host } });
+const getAppDBConn = () => knex(knexConf);
 
 gulp.task('default', ['dev']);
+gulp.task('dev', cb => seq('compile', 'nodemon:debug', 'mocha', 'watch:compile', 'watch:mocha', cb));
+gulp.task('build:dev', cb => seq('db:build', 'db:seed', 'dev', cb));
+gulp.task('rebuild:dev', cb => seq('db:drop', 'build:dev', cb));
 
-gulp.task('dev', ['debug', 'watch:compile', 'watch:mocha']);
+gulp.task('compile', ['clean'], () => gulp
+  .src('src/**/*')
+  .pipe(babel())
+  .pipe(gulp.dest('bin/'))
+);
 
-gulp.task('debug', ['compile'], function() {
-  return nodemon({
-    exec: 'node ./node_modules/.bin/node-debug',
-    script: './bin/app.js',
-    watch: 'bin',
-    args: ['--' + config.env]
-  });
-});
+gulp.task('nodemon:debug', () => nodemon({
+  exec: 'node ./node_modules/.bin/node-debug',
+  script: './bin/app.js',
+  watch: 'bin',
+  args: ['--' + config.env]
+}));
 
-gulp.task('server', ['compile'], function() {
-  return nodemon({
-    exec: 'node --harmony',
-    script: './bin/app.js',
-    watch: 'bin',
-    args: ['--' + config.env]
-  });
-});
+gulp.task('nodemon', () => nodemon({
+  exec: 'node --harmony',
+  script: './bin/app.js',
+  watch: 'bin',
+  args: ['--' + config.env]
+}));
 
-gulp.task('compile', ['clean'], function() {
-  return gulp.src('src/**/*')
-    .pipe(babel())
-    .pipe(gulp.dest('bin/'));
-});
+gulp.task('mocha', () => gulp
+  .src('./bin/test/*.js', { read: false })
+  .pipe(mocha({ reporter: 'dot', harmony: true, test: 'true' }))
+);
 
-gulp.task('mocha', function () {
-  return gulp.src('./bin/test/*.js', { read: false })
-    .pipe(mocha({ reporter: 'progress', harmony: true, test: 'true' }));
-});
+gulp.task('clean', cb => del(['bin/*'], cb));
+gulp.task('watch:compile', () => gulp.watch('src/**/*.js', ['compile']));
+gulp.task('watch:mocha', () => gulp.watch('bin/**/*.js', debounce(() => seq('mocha'), 1000)));
+gulp.task('db:build', cb => seq('db:create', 'migrate:latest', cb));
+gulp.task('db:rebuild', cb => seq('db:drop', 'db:build', cb));
+gulp.task('db:create', cb => pgConn.raw('CREATE DATABASE ' + config.db.name));
+gulp.task('db:drop', cb => pgConn.raw('DROP DATABASE ' + config.db.name));
 
-gulp.task('clean', function (cb) {
-  return del(['bin/*'], cb);
-});
-
-gulp.task('watch:compile', function() {
-  return gulp.watch('src/**/*.js', ['compile']);
-});
-
-gulp.task('watch:mocha', function() {
-  return gulp.watch('bin/**/*.js', debounce(function() {
-    runSequence('mocha');
-  }, 1000));
-});
-
-gulp.task('db:create', function() {
-  var conn = knex({ client: config.db.client, connection: { host: config.db.host }});
-  return conn.raw('CREATE DATABASE ' + config.db.name)
-    .then(function() { return conn.destroy(); });
-});
-
-gulp.task('db:drop', function() {
-  var conn = knex({ client: config.db.client, connection: { host: config.db.host }});
-  return conn.raw('DROP DATABASE ' + config.db.name)
-    .then(function() { return conn.destroy(); });
-});
-
-gulp.task('db:seed', function() {
-  var conn = knex(knexConf);
-  return conn.seed.run()
-    .then(function() { return conn.destroy(); });
-});
-
-gulp.task('db:init', function(cb) {
-  return runSequence(
-    'db:create',
-    'migrate:latest',
-    'db:seed',
-    cb
-  );
-});
-
-gulp.task('db:refresh', function(cb) {
-  return runSequence(
-    'db:drop',
-    'db:init',
-    cb
-  );
-});
-
-gulp.task('migrate:latest', function() {
-  var conn = knex(knexConf);
+gulp.task('migrate:latest', () => {
+  const conn = getAppDBConn();
   return conn.migrate.latest()
-    .then(function() { return conn.destroy(); });
+    .then(() => conn.destroy());
 });
 
-gulp.task('migrate:rollback', function() {
-  var conn = knex(knexConf);
+gulp.task('migrate:rollback', () => {
+  const conn = getAppDBConn();
   return conn.migrate.rollback()
-    .then(function() { return conn.destroy(); });
+    .then(() => conn.destroy());
+});
+
+gulp.task('db:seed', () => {
+  const conn = getAppDBConn();
+  return conn.seed.run()
+    .then(() => conn.destroy());
 });

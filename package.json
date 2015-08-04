@@ -3,16 +3,19 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/gulp dev --harmony",
-    "server": "./node_modules/.bin/gulp server --harmony --production",
+    "start": "npm run dev",
+    "dev": "./node_modules/.bin/gulp dev --harmony",
+    "build:dev": "./node_modules/.bin/gulp build:dev --harmony",
+    "rebuild:dev": "./node_modules/.bin/gulp rebuild:dev --harmony",
     "compile": "./node_modules/.bin/gulp compile",
     "test": "npm run mocha && npm run lint",
     "mocha": "./node_modules/.bin/gulp mocha --harmony",
     "lint": "eslint src gulpfile.js knexfile.js config.js",
     "watch:compile": "./node_modules/.bin/gulp watch:compile --harmony",
     "watch:mocha": "./node_modules/.bin/gulp watch:mocha --harmony",
-    "db:init": "./node_modules/.bin/gulp db:init --harmony",
-    "db:refresh": "./node_modules/.bin/gulp db:refresh --harmony"
+    "db:build": "./node_modules/.bin/gulp db:build --harmony",
+    "db:rebuild": "./node_modules/.bin/gulp db:rebuild --harmony",
+    "db:seed": "./node_modules/.bin/gulp db:seed --harmony"
   },
   "dependencies": {
     "babel-runtime": "^5.8.20",

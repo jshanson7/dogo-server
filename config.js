@@ -1,8 +1,8 @@
 'use strict';
 
-var argv = require('yargs').argv;
-var secrets = require('./secrets');
-var env = argv.production ? 'production' :
+const argv = require('yargs').argv;
+const secrets = require('./secrets');
+const env = argv.production ? 'production' :
   argv.staging ? 'staging' :
   argv.test ? 'test' :
   'development';

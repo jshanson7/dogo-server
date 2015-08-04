@@ -19,7 +19,7 @@ if (app.env === 'development') {
   app.use(logger());
 }
 
-app.use(function *(next) {
+app.use(function* (next) {
   try { yield next; }
   catch (err) {
     this.status = err.status || 500;
