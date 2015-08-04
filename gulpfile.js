@@ -41,7 +41,7 @@ gulp.task('compile', ['clean'], function() {
 
 gulp.task('mocha', function () {
   return gulp.src('./bin/test/*.js', { read: false })
-    .pipe(mocha({ reporter: 'list', harmony: true, test: 'true' }));
+    .pipe(mocha({ reporter: 'progress', harmony: true, test: 'true' }));
 });
 
 gulp.task('clean', function (cb) {

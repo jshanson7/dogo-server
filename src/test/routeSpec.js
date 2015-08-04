@@ -3,31 +3,47 @@
 import superagent from  'supertest';
 import app from '../app';
 
-function request() {
-  return superagent(app.listen());
-}
+const restControllers = ['users', 'dogs', 'notes'];
+const request = () => superagent(app.listen());
 
-describe('Routes', function() {
-  describe('GET /api/v1/', function() {
-    it('should return 200', function(done) {
+
+describe('Routes', () => {
+  describe('GET /api/v1/', () => {
+    it('should return 200', (done) => {
       request()
         .get('/api/v1/')
         .expect(200, done);
     });
   });
-  // describe('GET /books', function() {
-  //   it('should return 200', function(done) {
-  //     request()
-  //       .get('/books')
-  //       .expect('Content-Type', /json/)
-  //       .expect(200, done);
-  //   });
-  // });
-  // describe('GET /books/notfound', function() {
-  //   it('should return 404', function(done) {
-  //     request()
-  //       .get('/books/notfound')
-  //       .expect(404, done);
-  //   });
-  // });
+  describe('GET /api/v1/notfound', () => {
+    it('should return 404', (done) => {
+      request()
+        .get('/api/v1/notfound')
+        .expect(404, done);
+    });
+  });
+  restControllers.forEach((restCtl) => {
+    describe(`GET /api/v1/${restCtl}`, () => {
+      it('should return 200', (done) => {
+        request()
+          .get(`/api/v1/${restCtl}`)
+          .expect('Content-Type', /json/)
+          .expect(200, done);
+      });
+    });
+    describe(`GET /api/v1/${restCtl}/badrequest`, () => {
+      it('should return 400', (done) => {
+        request()
+          .get(`/api/v1/${restCtl}/badrequest`)
+          .expect(400, done);
+      });
+    });
+    describe(`GET /api/v1/${restCtl}/-1`, () => {
+      it('should return 404', (done) => {
+        request()
+          .get(`/api/v1/${restCtl}/-1`)
+          .expect(404, done);
+      });
+    });
+  });
 });
