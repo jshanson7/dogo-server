@@ -5,22 +5,26 @@ var babel = require('gulp-babel');
 var del = require('del');
 var runSequence = require('run-sequence');
 var nodemon = require('gulp-nodemon');
+var mocha = require('gulp-spawn-mocha');
 var knex = require('knex');
+var debounce = require('lodash').debounce;
 var config = require('./config');
 var knexConf = require('./knexfile');
 
-gulp.task('default', ['debug']);
+gulp.task('default', ['dev']);
 
-gulp.task('debug', ['compile', 'watch'], function() {
+gulp.task('dev', ['debug', 'watch:compile', 'watch:mocha']);
+
+gulp.task('debug', ['compile'], function() {
   return nodemon({
-    exec: 'node node_modules/node-inspector/bin/node-debug',
+    exec: 'node ./node_modules/.bin/node-debug',
     script: './bin/app.js',
     watch: 'bin',
     args: ['--' + config.env]
   });
 });
 
-gulp.task('server', ['compile', 'watch'], function() {
+gulp.task('server', ['compile'], function() {
   return nodemon({
     exec: 'node --harmony',
     script: './bin/app.js',
@@ -35,12 +39,23 @@ gulp.task('compile', ['clean'], function() {
     .pipe(gulp.dest('bin/'));
 });
 
-gulp.task('watch', function() {
-  return gulp.watch('src/**/*.js', ['compile']);
+gulp.task('mocha', function () {
+  return gulp.src('./bin/test/*.js', { read: false })
+    .pipe(mocha({ reporter: 'list', harmony: true, test: 'true' }));
 });
 
 gulp.task('clean', function (cb) {
   return del(['bin/*'], cb);
+});
+
+gulp.task('watch:compile', function() {
+  return gulp.watch('src/**/*.js', ['compile']);
+});
+
+gulp.task('watch:mocha', function() {
+  return gulp.watch('bin/**/*.js', debounce(function() {
+    runSequence('mocha');
+  }, 1000));
 });
 
 gulp.task('db:create', function() {

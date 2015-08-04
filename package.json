@@ -3,12 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./node_modules/gulp/bin/gulp debug",
-    "compile": "node ./node_modules/gulp/bin/gulp compile",
-    "watch": "node ./node_modules/gulp/bin/gulp watch",
-    "db:init": "node ./node_modules/gulp/bin/gulp db:init",
-    "db:refresh": "node ./node_modules/gulp/bin/gulp db:refresh",
-    "test": "mocha --compilers js:babel/register"
+    "start": "./node_modules/.bin/gulp dev --harmony",
+    "server": "./node_modules/.bin/gulp server --harmony --production",
+    "compile": "./node_modules/.bin/gulp compile",
+    "test": "npm run mocha && npm run lint",
+    "mocha": "./node_modules/.bin/gulp mocha --harmony",
+    "lint": "eslint src gulpfile.js knexfile.js config.js",
+    "watch:compile": "./node_modules/.bin/gulp watch:compile --harmony",
+    "watch:mocha": "./node_modules/.bin/gulp watch:mocha --harmony",
+    "db:init": "./node_modules/.bin/gulp db:init --harmony",
+    "db:refresh": "./node_modules/.bin/gulp db:refresh --harmony"
   },
   "dependencies": {
     "babel-runtime": "^5.8.20",
@@ -32,12 +36,14 @@
   "devDependencies": {
     "chance": "^0.7.6",
     "del": "^1.2.0",
+    "eslint": "^1.0.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
     "gulp-nodemon": "^2.0.3",
-    "mocha": "^2.2.5",
+    "gulp-spawn-mocha": "^2.2.1",
     "node-inspector": "^0.10.2",
     "run-sequence": "^1.1.1",
+    "supertest": "^1.0.1",
     "yargs": "^3.15.0"
   }
 }
