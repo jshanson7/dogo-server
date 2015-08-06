@@ -5,6 +5,8 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "./node_modules/.bin/gulp dev --harmony",
+    "prod": "npm run build && NODE_ENV=production node --harmony ./bin/app.js",
+    "build": "NODE_ENV=production ./node_modules/.bin/gulp build --harmony",
     "build:dev": "./node_modules/.bin/gulp build:dev --harmony",
     "rebuild:dev": "./node_modules/.bin/gulp rebuild:dev --harmony",
     "compile": "./node_modules/.bin/gulp compile --harmony",
@@ -15,7 +17,8 @@
     "watch:mocha": "./node_modules/.bin/gulp watch:mocha --harmony",
     "db:build": "./node_modules/.bin/gulp db:build --harmony",
     "db:rebuild": "./node_modules/.bin/gulp db:rebuild --harmony",
-    "db:seed": "./node_modules/.bin/gulp db:seed --harmony"
+    "db:seed": "./node_modules/.bin/gulp db:seed --harmony",
+    "db:drop": "./node_modules/.bin/gulp db:drop --harmony"
   },
   "dependencies": {
     "babel-runtime": "^5.8.20",
