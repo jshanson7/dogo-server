@@ -10,7 +10,7 @@ const knex = require('knex');
 const debounce = require('lodash').debounce;
 const config = require('./config');
 const knexConf = require('./knexfile');
-const pgConn = knex({ client: config.db.client, connection: { host: config.db.host } });
+const getPGConn = () => knex({ client: config.db.client, connection: { host: config.db.host } });
 const getAppDBConn = () => knex(knexConf);
 
 gulp.task('default', ['dev']);
@@ -49,8 +49,16 @@ gulp.task('watch:compile', () => gulp.watch('src/**/*.js', ['compile']));
 gulp.task('watch:mocha', () => gulp.watch('bin/**/*.js', debounce(() => seq('mocha'), 1000)));
 gulp.task('db:build', cb => seq('db:create', 'migrate:latest', cb));
 gulp.task('db:rebuild', cb => seq('db:drop', 'db:build', cb));
-gulp.task('db:create', cb => pgConn.raw('CREATE DATABASE ' + config.db.name));
-gulp.task('db:drop', cb => pgConn.raw('DROP DATABASE ' + config.db.name));
+
+gulp.task('db:create', cb => {
+  const conn = getPGConn();
+  return conn.raw('CREATE DATABASE ' + config.db.name).then(() => conn.destroy());
+});
+
+gulp.task('db:drop', cb => {
+  const conn = getPGConn();
+  return conn.raw('DROP DATABASE ' + config.db.name).then(() => conn.destroy());
+});
 
 gulp.task('migrate:latest', () => {
   const conn = getAppDBConn();
