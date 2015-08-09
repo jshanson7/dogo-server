@@ -5,13 +5,16 @@ const babel = require('gulp-babel');
 const del = require('del');
 const seq = require('run-sequence');
 const nodemon = require('gulp-nodemon');
-const mocha = require('gulp-spawn-mocha');
+const mocha = require('gulp-mocha');
+const spawnMocha = require('gulp-spawn-mocha');
+const istanbul = require('gulp-istanbul');
 const knex = require('knex');
 const debounce = require('lodash').debounce;
 const config = require('./config');
 const knexConf = require('./knexfile');
 const getPGConn = () => knex({ client: config.db.client, connection: { host: config.db.host } });
 const getAppDBConn = () => knex(knexConf);
+const mochaConf = { reporter: 'dot', harmony: true, test: 'true' };
 
 gulp.task('default', ['dev']);
 gulp.task('dev', cb => seq('compile', 'nodemon:debug', 'mocha', 'watch:compile', 'watch:mocha', cb));
@@ -41,8 +44,20 @@ gulp.task('nodemon', () => nodemon({
 
 gulp.task('mocha', () => gulp
   .src('./bin/test/*.js', { read: false })
-  .pipe(mocha({ reporter: 'dot', harmony: true, test: 'true' }))
+  .pipe(spawnMocha(mochaConf))
 );
+
+gulp.task('coverage', (cb) => {
+  gulp.src(['bin/**/*.js'])
+    .pipe(istanbul()) 
+    .pipe(istanbul.hookRequire())
+    .on('finish', () => gulp.src(['bin/test/*.js'])
+      .pipe(mocha(mochaConf))
+      .pipe(istanbul.writeReports())
+      // .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
+      .on('finish', cb)
+    )
+});
 
 gulp.task('clean', cb => del(['bin/*'], cb));
 gulp.task('watch:compile', () => gulp.watch('src/**/*.js', ['compile']));
