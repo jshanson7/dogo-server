@@ -6,7 +6,7 @@ services:
 - postgresql
 before_script:
 - psql -c 'create database dogo;' -U postgres
-- npm run migrate:latest -- --staging
+- npm run migrate:latest:staging
 before_install:
 - openssl aes-256-cbc -K $encrypted_1f96109533db_key -iv $encrypted_1f96109533db_iv
   -in secrets.json.enc -out secrets.json -d

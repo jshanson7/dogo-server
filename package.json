@@ -16,7 +16,7 @@
     "lint": "eslint src gulpfile.js knexfile.js config.js",
     "watch:compile": "./node_modules/.bin/gulp watch:compile --harmony",
     "watch:mocha": "./node_modules/.bin/gulp watch:mocha --harmony",
-    "migrate:latest": "./node_modules/.bin/gulp migrate:latest --harmony",
+    "migrate:latest:staging": "./node_modules/.bin/gulp migrate:latest --harmony --staging",
     "db:build": "./node_modules/.bin/gulp db:build --harmony",
     "db:rebuild": "./node_modules/.bin/gulp db:rebuild --harmony",
     "db:create": "./node_modules/.bin/gulp db:create --harmony",
