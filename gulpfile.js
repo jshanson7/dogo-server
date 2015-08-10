@@ -17,6 +17,7 @@ const getAppDBConn = () => knex(knexConf);
 const mochaConf = { reporter: 'dot', harmony: true, test: 'true' };
 
 gulp.task('default', ['dev']);
+gulp.task('c', ['coverage']);
 gulp.task('dev', cb => seq('compile', 'nodemon:debug', 'mocha', 'watch:compile', 'watch:mocha', cb));
 gulp.task('build', ['db:build']);
 gulp.task('build:dev', cb => seq('db:build', 'db:seed', 'dev', cb));
