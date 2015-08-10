@@ -16,10 +16,10 @@
     "lint": "eslint src gulpfile.js knexfile.js config.js",
     "watch:compile": "./node_modules/.bin/gulp watch:compile --harmony",
     "watch:mocha": "./node_modules/.bin/gulp watch:mocha --harmony",
-    "migrate:latest": "./node_modules/.bin/gulp db:build --harmony",
+    "migrate:latest": "./node_modules/.bin/gulp migrate:latest --harmony",
     "db:build": "./node_modules/.bin/gulp db:build --harmony",
     "db:rebuild": "./node_modules/.bin/gulp db:rebuild --harmony",
-    "db:create": "./node_modules/.bin/gulp db:build --harmony",
+    "db:create": "./node_modules/.bin/gulp db:create --harmony",
     "db:seed": "./node_modules/.bin/gulp db:seed --harmony",
     "db:drop": "./node_modules/.bin/gulp db:drop --harmony"
   },
