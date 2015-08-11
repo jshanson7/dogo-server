@@ -22,10 +22,6 @@ export default Base.extend({
   },
 
 }, {
-  // rules: {
-  //   first_name: ['required', 'minLength:1'],
-  //   last_name: ['required', 'minLength:1'],
-  // },
   schema: {
     properties: {
       first_name: {

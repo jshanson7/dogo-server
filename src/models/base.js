@@ -1,6 +1,5 @@
 'use strict';
 
-// import Checkit from 'checkit';
 import VError from 'verror';
 import { keys, has, difference, result, defaults } from 'lodash';
 import validate from '../utils/validate';
@@ -19,9 +18,6 @@ export default bookshelf.Model.extend({
   },
 
   validateSave() {
-    // return new Checkit(this.constructor.rules)
-    //   .run(this.attributes);
-
     return validate(this.attributes, result(this.constructor, 'schema'));
   }
 
@@ -73,39 +69,39 @@ export default bookshelf.Model.extend({
     const directions = ['asc', 'desc'];
     const related = this.relations.fetch;
     return {
-      'properties': {
-        'orderBy': {
+      properties: {
+        orderBy: {
           type: 'string',
           enum: attributes,
           message: 'must be one of [' + attributes.join(', ') + ']'
         },
-        'direction': {
+        direction: {
           type: 'string',
           enum: directions,
           message: 'must be one of [' + directions.join(', ') + ']'
         },
-        'limit': {
+        limit: {
           type: 'integer',
           minimum: 0,
           maximum: 100
         },
-        'offset': {
+        offset: {
           type: 'integer',
           minimum: 0
         },
-        'withRelated': {
+        withRelated: {
           type: 'array',
           conform: value => difference(value, related).length === 0,
           messages: {
             conform: 'must be a subset of [' + related.join(', ') + ']'
           }
         },
-        'search': {
+        search: {
           type: 'string',
           minLength: 0,
           maxLength: 70
         },
-        'searchBy': {
+        searchBy: {
           type: 'array',
           dependencies: 'search',
           conform: value => difference(value, this.searchable).length === 0,
@@ -132,12 +128,12 @@ export default bookshelf.Model.extend({
   fetchOneParamsSchema() {
     const related = this.relations.fetchOne;
     return {
-      'properties': {
-        'id': {
+      properties: {
+        id: {
           required: true,
           type: 'integer'
         },
-        'withRelated': {
+        withRelated: {
           type: 'array',
           conform: v => difference(v, related).length === 0,
           messages: {

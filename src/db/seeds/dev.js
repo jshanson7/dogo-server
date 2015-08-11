@@ -84,9 +84,9 @@ const notes = [
 
 exports.seed = (knex, Promise) => {
   return Promise.join(
-    knex('notes').del(),
-    knex('dogs').del(),
-    knex('users').del(),
+    // knex('notes').del(),
+    // knex('dogs').del(),
+    // knex('users').del(),
     knex('users').insert(users),
     knex('dogs').insert(dogs),
     knex('notes').insert(notes)

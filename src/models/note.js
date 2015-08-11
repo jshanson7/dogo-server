@@ -23,11 +23,6 @@ export default Base.extend({
   }
 
 }, {
-  // rules: {
-  //   text: ['required', 'minLength:1', 'maxLength:140'],
-  //   dog_id: ['required', 'integer'],
-  //   user_id: ['required', 'integer'],
-  // },
   schema: {
     properties: {
       text: {
