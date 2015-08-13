@@ -36,13 +36,15 @@ export default bookshelf.Model.extend({
         const config = defaults({}, params, result(this, 'fetchParamsDefaults'));
         const searchTerm = has(config, 'search') ? '%' + config.search + '%' : null;
         return new this()
-          .query(qb => {
-            qb.orderBy(config.orderBy, config.direction);
-            qb.offset(config.offset);
+          .query(queryBuilder => {
+            queryBuilder
+              .orderBy(config.orderBy, config.direction)
+              .offset(config.offset)
+              .limit(config.limit);
             if (searchTerm) {
-              config.searchBy.forEach(attribute => qb.orWhere(attribute, 'ilike', searchTerm));
+              config.searchBy.forEach(attribute => queryBuilder.orWhere(attribute, 'ilike', searchTerm));
             }
-            qb.limit(config.limit);
+            
           })
           .fetchAll({ withRelated: config.withRelated });
       });
