@@ -1,5 +1,3 @@
-'use strict';
-
 exports.up = (knex, Promise) => {
   return knex.schema.createTable('dogs', t => {
     t.increments('id').primary();

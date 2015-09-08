@@ -1,5 +1,3 @@
-'use strict';
-
 import { defaults } from 'lodash';
 import Base from './base';
 import Note from './note';

@@ -1,5 +1,3 @@
-'use strict';
-
 import koaRouter from 'koa-router';
 import UserController from '../controllers/user';
 

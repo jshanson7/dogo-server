@@ -1,5 +1,3 @@
-'use strict';
-
 import VError from 'verror';
 import revalidator from 'revalidator';
 

@@ -1,5 +1,3 @@
-'use strict';
-
 import VError from 'verror';
 import { keys, has, difference, result, defaults } from 'lodash';
 import validate from '../utils/validate';

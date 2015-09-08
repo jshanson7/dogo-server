@@ -8,19 +8,13 @@ const nodemon = require('gulp-nodemon');
 const mocha = require('gulp-mocha');
 const spawnMocha = require('gulp-spawn-mocha');
 const istanbul = require('gulp-istanbul');
-const knex = require('knex');
 const debounce = require('lodash').debounce;
 const config = require('./config');
-const knexConf = require('./knexfile');
-const getPGConn = () => knex({ client: config.db.client, connection: { host: config.db.host } });
-const getAppDBConn = () => knex(knexConf);
-const mochaConf = { reporter: 'dot', harmony: true, test: 'true' };
+const mochaConf = { reporter: 'dot', harmony: true, env: { 'NODE_ENV': 'test' } };
+const db = () => require('./bin/db/db');
 
 gulp.task('default', ['dev']);
 gulp.task('dev', cb => seq('compile', 'nodemon:debug', 'mocha', 'watch:compile', 'watch:mocha', cb));
-gulp.task('build', ['db:build']);
-gulp.task('build:dev', cb => seq('db:build', 'db:seed', 'dev', cb));
-gulp.task('rebuild:dev', cb => seq('db:drop', 'build:dev', cb));
 
 gulp.task('compile', ['clean'], () => gulp
   .src('src/**/*')
@@ -43,7 +37,7 @@ gulp.task('nodemon', () => nodemon({
 }));
 
 gulp.task('mocha', () => gulp
-  .src('./bin/test/*.js', { read: false })
+  .src(__dirname + '/bin/test/*.js', { read: false })
   .pipe(spawnMocha(mochaConf))
 );
 
@@ -61,31 +55,15 @@ gulp.task('coverage', (cb) => {
 
 gulp.task('clean', cb => del(['bin/*'], cb));
 gulp.task('watch:compile', () => gulp.watch('src/**/*.js', ['compile']));
-gulp.task('watch:mocha', () => gulp.watch('bin/**/*.js', debounce(() => seq('mocha'), 1000)));
-gulp.task('db:build', cb => seq('db:create', 'migrate:latest', cb));
+gulp.task('watch:mocha', () => gulp.watch(__dirname + '/bin/**/*.js', debounce(() => seq('mocha'), 1000)));
+
+// compile first
+gulp.task('build', ['db:build']);
+gulp.task('rebuild', ['db:rebuild']);
+gulp.task('db:build', cb => seq('db:create', 'db:migrateLatest', 'db:seed', cb));
 gulp.task('db:rebuild', cb => seq('db:drop', 'db:build', cb));
-
-gulp.task('db:create', cb => {
-  const conn = getPGConn();
-  return conn.raw('CREATE DATABASE ' + config.db.name).then(() => conn.destroy());
-});
-
-gulp.task('db:drop', cb => {
-  const conn = getPGConn();
-  return conn.raw('DROP DATABASE ' + config.db.name).then(() => conn.destroy());
-});
-
-gulp.task('migrate:latest', () => {
-  const conn = getAppDBConn();
-  return conn.migrate.latest().then(() => conn.destroy());
-});
-
-gulp.task('migrate:rollback', () => {
-  const conn = getAppDBConn();
-  return conn.migrate.rollback().then(() => conn.destroy());
-});
-
-gulp.task('db:seed', () => {
-  const conn = getAppDBConn();
-  return conn.seed.run().then(() => conn.destroy());
-});
+gulp.task('db:create', () => db().create());
+gulp.task('db:drop', () => db().drop());
+gulp.task('db:seed', () => db().seed());
+gulp.task('db:migrateLatest', () => db().migrateLatest());
+gulp.task('db:migrateRollback', () => db().migrateRollback());

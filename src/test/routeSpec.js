@@ -1,5 +1,3 @@
-'use strict';
-
 import superagent from  'supertest';
 import app from '../app';
 

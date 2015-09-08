@@ -1,10 +1,8 @@
-'use strict';
+import { range, sample } from 'lodash';
+import Chance from 'chance';
+import breeds from '../breeds';
 
-const chance = require('chance').Chance();
-const breeds = require('../breeds');
-const _ = require('lodash');
-const range = _.range;
-const sample = _.sample;
+const chance = Chance();
 const numberOfSeeds = 100;
 
 const users = [
@@ -84,9 +82,6 @@ const notes = [
 
 exports.seed = (knex, Promise) => {
   return Promise.join(
-    // knex('notes').del(),
-    // knex('dogs').del(),
-    // knex('users').del(),
     knex('users').insert(users),
     knex('dogs').insert(dogs),
     knex('notes').insert(notes)

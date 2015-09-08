@@ -1,5 +1,3 @@
-'use strict';
-
 import 'source-map-support/register';
 import koa from 'koa';
 import logger from 'koa-logger';

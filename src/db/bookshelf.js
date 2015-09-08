@@ -1,7 +1,4 @@
-'use strict';
-
-import knex from 'knex';
-import knexConf from '../../knexfile';
 import bookshelf from 'bookshelf';
+import db from './db';
 
-export default bookshelf(knex(knexConf));
+export default bookshelf(db.conn());

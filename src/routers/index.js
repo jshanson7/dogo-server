@@ -1,5 +1,3 @@
-'use strict';
-
 import koaRouter from 'koa-router';
 import dog from './dog';
 import user from './user';

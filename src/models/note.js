@@ -1,5 +1,3 @@
-'use strict';
-
 import { defaults } from 'lodash';
 import Dog from './dog';
 import User from './user';
