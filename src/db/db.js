@@ -4,7 +4,9 @@ import config from '../../config';
 
 const appDB = () => knex(knexConf);
 const pg = () => knex({ client: config.db.client, connection: { host: config.db.host } });
-const wrapConn = (conn, cb) => cb(conn).then(() => conn.destroy());
+const wrapConn = (conn, cb) => cb(conn)
+  .catch(err => conn.destroy().then(() => Promise.reject(err)))
+  .then(res => conn.destroy().then(() => Promise.resolve(res)));
 
 export default {
   conn: appDB,

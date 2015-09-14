@@ -4,19 +4,15 @@
   "private": true,
   "scripts": {
     "build": "npm run compile && npm run db:build",
-    
     "start": "npm run dev",
     "dev": "NODE_ENV=development ./node_modules/.bin/gulp dev --harmony",
     "prod": "NODE_ENV=production node --harmony ./bin/app.js",
-
     "compile": "./node_modules/.bin/gulp compile --harmony",
     "watch:compile": "./node_modules/.bin/gulp watch:compile --harmony",
-    
     "test": "npm run mocha",
     "mocha": "NODE_ENV=test ./node_modules/.bin/gulp mocha --harmony",
     "watch:mocha": "NODE_ENV=test ./node_modules/.bin/gulp watch:mocha --harmony",
     "coverage": "node --harmony ./node_modules/.bin/istanbul test ./node_modules/.bin/_mocha /bin/ -- -R spec",
-
     "db:rebuild": "npm run db:drop && npm run db:build",
     "db:build": "npm run db:build:prod && npm run db:build:test && npm run db:build:dev",
     "db:build:prod": "NODE_ENV=production ./node_modules/.bin/gulp db:build --harmony",
@@ -26,7 +22,6 @@
     "db:drop:prod": "NODE_ENV=production ./node_modules/.bin/gulp db:drop --harmony",
     "db:drop:test": "NODE_ENV=test ./node_modules/.bin/gulp db:drop --harmony",
     "db:drop:dev": "NODE_ENV=development ./node_modules/.bin/gulp db:drop --harmony",
-    
     "lint": "eslint src gulpfile.js knexfile.js config.js"
   },
   "dependencies": {
@@ -58,6 +53,7 @@
     "gulp-mocha": "^2.1.3",
     "gulp-nodemon": "^2.0.3",
     "gulp-spawn-mocha": "^2.2.1",
+    "gulp-util": "^3.0.6",
     "gulp-watch": "^4.3.5",
     "istanbul": "^0.3.17",
     "node-inspector": "^0.10.2",
