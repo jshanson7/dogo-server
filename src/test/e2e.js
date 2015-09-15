@@ -6,7 +6,7 @@ const generatedAttrs = ['id', 'created_at', 'updated_at', 'notes', 'users', 'dog
 const restOptions = [
   {
     model: 'user',
-    controller: 'users',
+    endpoint: 'users',
     requiredRelations: [],
     valid: require('./data/users_valid.json'),
     invalid: require('./data/users_invalid.json'),
@@ -14,7 +14,7 @@ const restOptions = [
   },
   {
     model: 'dog',
-    controller: 'dogs',
+    endpoint: 'dogs',
     requiredRelations: [],
     valid: require('./data/dogs_valid.json'),
     invalid: require('./data/dogs_invalid.json'),
@@ -22,7 +22,7 @@ const restOptions = [
   },
   {
     model: 'note',
-    controller: 'notes',
+    endpoint: 'notes',
     requiredRelations: ['dog', 'user'],
     valid: require('./data/notes_valid.json'),
     invalid: require('./data/notes_invalid.json'),
@@ -45,11 +45,11 @@ describe('e2e', () => {
 
   before(resetDB);
 
-  restOptions.forEach(restOpt => describe(`${restOpt.controller} endpoint`, () => {
+  restOptions.forEach(restOpt => describe(`${restOpt.endpoint} endpoint`, () => {
     
-    it(`should start with zero ${restOpt.controller}`, done =>
+    it(`should start with zero ${restOpt.endpoint}`, done =>
       request()
-        .get(`/api/v1/${restOpt.controller}`)
+        .get(`/api/v1/${restOpt.endpoint}`)
         .expect(200)
         .end((err, res) => {
           if (err) { return done(err); }
@@ -61,7 +61,7 @@ describe('e2e', () => {
     restOpt.invalid.forEach((model, index) =>
       it(`should fail to create invalid model ${index}`, done =>
         request()
-          .post(`/api/v1/${restOpt.controller}`)
+          .post(`/api/v1/${restOpt.endpoint}`)
           .send(restOpt.requiredRelations ? addRelations(model, restOpt.requiredRelations) : model)
           .expect(400, done)
       ));
@@ -69,7 +69,7 @@ describe('e2e', () => {
     restOpt.valid.forEach((model, index) =>
       it(`should create valid model ${index}`, done =>
         request()
-          .post(`/api/v1/${restOpt.controller}`)
+          .post(`/api/v1/${restOpt.endpoint}`)
           .send(restOpt.requiredRelations ? addRelations(model, restOpt.requiredRelations) : model)
           .expect(200)
           .end((err, res) => {
@@ -83,7 +83,7 @@ describe('e2e', () => {
     restOpt.valid.forEach((model, index) =>
       it(`should fetch created model ${index}`, done =>
         request()
-          .get(`/api/v1/${restOpt.controller}/${restOpt.created[index].id}`)
+          .get(`/api/v1/${restOpt.endpoint}/${restOpt.created[index].id}`)
           .expect(200)
           .end((err, res) => {
             if (err) { return done(err); }

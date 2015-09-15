@@ -1,6 +1,6 @@
 import request from  './util/request';
 
-const restControllers = ['users', 'dogs', 'notes'];
+const endpoints = ['users', 'dogs', 'notes'];
 
 describe('Routes', () => {
   
@@ -20,29 +20,29 @@ describe('Routes', () => {
     )
   );
   
-  restControllers.forEach(restCtl => {
+  endpoints.forEach(endpoint => {
    
-    describe(`GET /api/v1/${restCtl}`, () =>
+    describe(`GET /api/v1/${endpoint}`, () =>
       it('should return 200', done =>
         request()
-          .get(`/api/v1/${restCtl}`)
+          .get(`/api/v1/${endpoint}`)
           .expect('Content-Type', /json/)
           .expect(200, done)
       )
     );
     
-    describe(`GET /api/v1/${restCtl}/badrequest`, () =>
+    describe(`GET /api/v1/${endpoint}/badrequest`, () =>
       it('should return 400', done =>
         request()
-          .get(`/api/v1/${restCtl}/badrequest`)
+          .get(`/api/v1/${endpoint}/badrequest`)
           .expect(400, done)
       )
     );
     
-    describe(`GET /api/v1/${restCtl}/-1`, () =>
+    describe(`GET /api/v1/${endpoint}/-1`, () =>
       it('should return 404', done =>
         request()
-          .get(`/api/v1/${restCtl}/-1`)
+          .get(`/api/v1/${endpoint}/-1`)
           .expect(404, done)
       )
     );
