@@ -1,8 +1,6 @@
-import superagent from  'supertest';
-import app from '../app';
+import request from  './util/request';
 
 const restControllers = ['users', 'dogs', 'notes'];
-const request = () => superagent(app.listen());
 
 describe('Routes', () => {
   

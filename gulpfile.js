@@ -11,17 +11,24 @@ const spawnMocha = require('gulp-spawn-mocha');
 const istanbul = require('gulp-istanbul');
 const debounce = require('lodash').debounce;
 const env = require('./config').env;
-const mochaConf = { reporter: 'dot', harmony: true, env: { 'NODE_ENV': 'test' } };
+const mochaConf = { reporter: 'dot', harmony: true, env: { 'NODE_ENV': 'test' }, timeout: 15000 };
 const db = () => require('./bin/db/db');
 
 gutil.log('gulpfile env: ' + env);
 
 gulp.task('default', ['dev']);
 gulp.task('dev', cb => seq('compile', 'nodemon:debug', 'mocha', 'watch:compile', 'watch:mocha', cb));
+gulp.task('compile', cb => seq('clean', 'babel', 'nonJS', cb));
+gulp.task('clean', cb => del(['bin/*'], cb));
 
-gulp.task('compile', ['clean'], () => gulp
-  .src('src/**/*')
+gulp.task('babel', () => gulp
+  .src('src/**/*.js')
   .pipe(babel())
+  .pipe(gulp.dest('bin/'))
+);
+
+gulp.task('nonJS', () => gulp
+  .src(['!src/**/*.js', 'src/**/*'])
   .pipe(gulp.dest('bin/'))
 );
 
@@ -56,8 +63,7 @@ gulp.task('coverage', (cb) => {
     )
 });
 
-gulp.task('clean', cb => del(['bin/*'], cb));
-gulp.task('watch:compile', () => gulp.watch('src/**/*.js', ['compile']));
+gulp.task('watch:compile', () => gulp.watch('src/**/*', ['compile']));
 gulp.task('watch:mocha', () => gulp.watch(__dirname + '/bin/**/*.js', debounce(() => seq('mocha'), 1000)));
 
 // must compile before the following
