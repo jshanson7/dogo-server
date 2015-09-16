@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "npm run compile && npm run db:build",
+    "build": "npm run update-schema && npm run compile && npm run db:build",
     "start": "npm run dev",
     "dev": "NODE_ENV=development ./node_modules/.bin/gulp dev --harmony",
     "prod": "NODE_ENV=production node --harmony ./bin/app.js",

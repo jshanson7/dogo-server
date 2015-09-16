@@ -15,5 +15,16 @@ module.exports = {
     user: secrets[env].DB_USER,
     password: secrets[env].DB_PASSWORD,
     seed: env
+  },
+  graphql: {
+    schema: 'src/db/graphql/schema.js',
+    updateSchema: 'src/db/graphql/updateSchema.js',
+    schemaJSON: 'src/db/graphql/schema.json'
+  },
+  mocha: {
+    reporter: 'dot',
+    harmony: true,
+    env: { 'NODE_ENV': 'test' },
+    timeout: 15000
   }
 };
