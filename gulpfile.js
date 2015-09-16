@@ -23,7 +23,9 @@ gulp.task('clean', cb => del(['bin/*'], cb));
 
 gulp.task('babel', () => gulp
   .src('src/**/*.js')
-  .pipe(babel())
+  .pipe(babel({
+      'plugins': ['./src/build/babelRelayPlugin']
+    }))
   .pipe(gulp.dest('bin/'))
 );
 

@@ -1,0 +1,30 @@
+input AddUserInput {
+  first_name: String!
+  last_name: String!
+  clientMutationId: String!
+}
+
+type AddUserPayload {
+  user: User
+  clientMutationId: String!
+}
+
+type Mutation {
+  addUser(input: AddUserInput!): AddUserPayload
+}
+
+interface Node {
+  id: ID!
+}
+
+type Root {
+  users: [User]
+  user(id: String): User
+  node(id: ID!): Node
+}
+
+type User implements Node {
+  id: ID!
+  first_name: String
+  last_name: String
+}

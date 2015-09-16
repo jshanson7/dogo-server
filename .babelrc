@@ -1,5 +1,5 @@
 {
-  "stage": 1,
+  "stage": 0,
   "optional": [
     "runtime",
     "es7.decorators",

@@ -7,8 +7,10 @@ import helmet from 'koa-helmet';
 import koaValidate from 'koa-validate';
 import mount from 'koa-mount';
 import qs from 'koa-qs';
+import graphqlHTTP from 'koa-graphql';
 import routers from './routers';
 import config from '../config';
+import { GraphQLDogoSchema } from './db/graphql/schema';
 
 const app = koa();
 app.env = config.env;
@@ -31,6 +33,7 @@ app.use(helmet.defaults());
 app.use(bodyParser());
 app.use(koaValidate());
 app.use(mount('/api/v1', routers.routes()));
+app.use(mount('/graphql', graphqlHTTP({ schema: GraphQLDogoSchema })));
 app.use(compress());
 
 if (!module.parent) {
