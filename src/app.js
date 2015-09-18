@@ -39,7 +39,7 @@ app.use(mount('/api/v1', routers.routes()));
 app.use(compress());
 
 if (!module.parent) {
-  app.listen(config.port, () => console.log(`App listening on port ${config.port} env: ${app.env}`));
+  app.listen(config.port, config.host, () => console.log(`App listening on port ${config.port} env: ${app.env}`));
 }
 
 export default app;
