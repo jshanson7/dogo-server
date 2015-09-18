@@ -1,7 +1,7 @@
-export class User extends Object {};
+export class User extends Object {}
 export class Widget extends Object {}
-export class Dog extends Object {};
-export class Note extends Object {};
+export class Dog extends Object {}
+export class Note extends Object {}
 
 let viewer = new User();
 viewer.id = '1';
@@ -59,12 +59,12 @@ export function getViewer() {
   return viewer;
 }
 
-export function getWidget(id){
+export function getWidget(id) {
   return widgets.find(w => w.id === id);
 }
 
 export function getWidgets() {
-  return data.Widget.map(widget => widget);;
+  return data.Widget.map(widget => widget);
 }
 
 let nextUser = 3;

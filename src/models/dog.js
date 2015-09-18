@@ -5,7 +5,7 @@ import User from './user';
 
 export default Base.extend({
   tableName: 'dogs',
-  
+
   defaults: defaults({
     name: null,
     description: null,
@@ -13,11 +13,11 @@ export default Base.extend({
     dot_color: null,
   }, Base.prototype.defaults),
 
-  notes: function() {
+  notes: function () {
     return this.hasMany(Note);
   },
 
-  users: function() {
+  users: function () {
     return this.belongsToMany(User).through(Note);
   },
 

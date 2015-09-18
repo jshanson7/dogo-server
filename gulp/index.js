@@ -1,6 +1,4 @@
-'use strict';
-
-require('./compile');
-require('./run');
-require('./db');
-require('./test');
+import './compile';
+import './run';
+import './db';
+import './test';

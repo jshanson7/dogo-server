@@ -1,9 +1,9 @@
-import request from  './util/request';
+import request from './utils/request';
 
 const endpoints = ['users', 'dogs', 'notes'];
 
 describe('Routes', () => {
-  
+
   describe('GET /api/v1/', () =>
     it('should return 200', done =>
       request()
@@ -11,7 +11,7 @@ describe('Routes', () => {
         .expect(200, done)
     )
   );
-  
+
   describe('GET /api/v1/notfound', () =>
     it('should return 404', done =>
       request()
@@ -19,9 +19,9 @@ describe('Routes', () => {
         .expect(404, done)
     )
   );
-  
+
   endpoints.forEach(endpoint => {
-   
+
     describe(`GET /api/v1/${endpoint}`, () =>
       it('should return 200', done =>
         request()
@@ -30,7 +30,7 @@ describe('Routes', () => {
           .expect(200, done)
       )
     );
-    
+
     describe(`GET /api/v1/${endpoint}/badrequest`, () =>
       it('should return 400', done =>
         request()
@@ -38,7 +38,7 @@ describe('Routes', () => {
           .expect(400, done)
       )
     );
-    
+
     describe(`GET /api/v1/${endpoint}/-1`, () =>
       it('should return 404', done =>
         request()
@@ -46,6 +46,6 @@ describe('Routes', () => {
           .expect(404, done)
       )
     );
-  
+
   });
 });

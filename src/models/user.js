@@ -5,17 +5,17 @@ import Dog from './dog';
 
 export default Base.extend({
   tableName: 'users',
-  
+
   defaults: defaults({
     first_name: null,
     last_name: null,
   }, Base.prototype.defaults),
 
-  notes: function() {
+  notes: function () {
     return this.hasMany(Note);
   },
 
-  dogs: function() {
+  dogs: function () {
     return this.belongsToMany(Dog).through(Note);
   },
 

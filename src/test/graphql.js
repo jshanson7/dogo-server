@@ -1,7 +1,6 @@
-import request from  './util/request';
+import request from './utils/request';
 
 describe('GraphQL', () => {
-  
   describe('GET /graphql/', () =>
     it('should return 400', done =>
       request()
@@ -9,7 +8,7 @@ describe('GraphQL', () => {
         .expect(400, done)
     )
   );
-  
+
   // describe('GET /graphql?query=query+getUser($id:String){user(id:$id){first_name}}&variables={"id":"1"}', () =>
   //   it('should return user Jeff', done =>
   //     request()

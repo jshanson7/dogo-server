@@ -1,4 +1,3 @@
-import 'source-map-support/register';
 import koa from 'koa';
 import logger from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
@@ -22,22 +21,23 @@ if (app.env === 'development') {
   app.use(logger());
 }
 
-app.use(function* (next) {
-  try { yield next; }
-  catch (err) {
+app.use(function *(next) {
+  try {
+    yield next;
+  } catch (err) {
     this.status = err.status || 500;
     this.body = err.message;
     this.app.emit('error', err, this);
   }
 });
 
-// app.use(function *(){
-//   if (this.path === '/favicon.ico') return;
+app.use(function *(next) {
+  if (this.path === '/favicon.ico') { return; }
 
-//   var n = this.session.views || 0;
-//   this.session.views = ++n;
-//   console.log('this.session.views', this.session.views);
-// })
+  var n = this.session.views || 0;
+  this.session.views = ++n;
+  yield next;
+});
 
 app.keys = ['secret'];
 app.use(session(app));
@@ -55,7 +55,9 @@ app.use(mount('/api/v1', routers.routes()));
 app.use(compress());
 
 if (!module.parent) {
-  app.listen(config.port, config.host, () => console.log(`App listening on port ${config.port} env: ${app.env}`));
+  app.listen(config.port, config.host, () =>
+    console.log(`App listening on port ${config.port} env: ${config.env}`)
+  );
 }
 
 export default app;

@@ -38,15 +38,15 @@ export default Model => {
       const model = yield Model
         .fetchOne(getParams(this))
         .catch(e => this.throw(new VError(e, 'fetchOne error'), 400));
-      
+
       if (!model) { this.throw('Not found', 404); }
 
       const result = yield model
         .destroy()
         .catch(e => this.throw(new VError(e, 'destroy error'), 400));
-      
+
       this.body = result;
       yield next;
     }
-  }
+  };
 };

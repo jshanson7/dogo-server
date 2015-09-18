@@ -1,4 +1,4 @@
-'use strict';
+require('babel/register');
 
 const gutil = require('gulp-util');
 const env = require('./config').env;

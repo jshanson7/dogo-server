@@ -1,5 +1,3 @@
-'use strict';
-
 const argv = require('yargs').argv;
 const secrets = require('./secrets');
 const env = process.env.NODE_ENV || 'development';
@@ -25,6 +23,7 @@ module.exports = {
   mocha: {
     reporter: 'dot',
     harmony: true,
-    env: { 'NODE_ENV': 'test' }
+    env: { 'NODE_ENV': 'test' },
+    compilers: 'js:babel/register'
   }
 };

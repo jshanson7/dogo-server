@@ -5,18 +5,18 @@ import Base from './base';
 
 export default Base.extend({
   tableName: 'notes',
-  
+
   defaults: defaults({
     text: null,
     dog_id: null,
     user_id: null,
   }, Base.prototype.defaults),
 
-  dog: function() {
+  dog: function () {
     return this.belongsTo(Dog);
   },
 
-  author: function() {
+  author: function () {
     return this.belongsTo(User);
   }
 

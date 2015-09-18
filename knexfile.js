@@ -1,5 +1,3 @@
-'use strict';
-
 const db = require('./config').db;
 
 module.exports = {
@@ -15,10 +13,10 @@ module.exports = {
     max: 1
   },
   migrations: {
-    directory: './bin/db/migrations',
+    directory: './src/db/migrations',
     tableName: 'knex_migrations'
   },
   seeds: {
-    directory: './bin/db/seeds/' + db.seed
+    directory: './src/db/seeds/' + db.seed
   }
 };

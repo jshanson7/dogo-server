@@ -52,7 +52,7 @@ var {nodeInterface, nodeField} = nodeDefinitions(
   (obj) => {
     if (obj instanceof User) {
       return GraphQLUser;
-    } else if (obj instanceof Widget)  {
+    } else if (obj instanceof Widget) {
       return GraphQLWidget;
     // } else if (obj instanceof Dog) {
     //   return GraphQLDog;

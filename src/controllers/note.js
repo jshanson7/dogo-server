@@ -4,7 +4,7 @@ import { assign } from 'lodash';
 import Note from '../models/note';
 import rest from './compose/rest';
 
-class NoteController {};
+class NoteController {}
 
 assign(NoteController.prototype, rest(Note));
 

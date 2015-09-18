@@ -42,7 +42,6 @@ export default bookshelf.Model.extend({
             if (searchTerm) {
               config.searchBy.forEach(attribute => queryBuilder.orWhere(attribute, 'ilike', searchTerm));
             }
-            
           })
           .fetchAll({ withRelated: config.withRelated });
       });
@@ -143,7 +142,7 @@ export default bookshelf.Model.extend({
       }
     };
   },
-  
+
   fetchOneParamsDefaults() {
     return {
       withRelated: this.relations.fetchOne

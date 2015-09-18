@@ -1,5 +1,5 @@
-import request from  './util/request';
-import resetDB from './util/resetDB';
+import request from './utils/request';
+import resetDB from './utils/resetDB';
 import { isEqual, omit, findWhere, set, sample } from 'lodash';
 
 const generatedAttrs = ['id', 'created_at', 'updated_at', 'notes', 'users', 'dog', 'dogs', 'author'];
@@ -33,7 +33,7 @@ const restOptions = [
 const addRelations = (model, relations) =>
   relations.reduce(
     (modifiedModel, relation) =>
-      set(modifiedModel, `${relation}_id`, sample(findWhere(restOptions, { 'model': relation }).created).id),
+      set(modifiedModel, `${relation}_id`, sample(findWhere(restOptions, { model: relation }).created).id),
     model
   );
 
@@ -46,7 +46,7 @@ describe('e2e', () => {
   before(resetDB);
 
   restOptions.forEach(restOpt => describe(`${restOpt.endpoint} endpoint`, () => {
-    
+
     it(`should start with zero ${restOpt.endpoint}`, done =>
       request()
         .get(`/api/v1/${restOpt.endpoint}`)

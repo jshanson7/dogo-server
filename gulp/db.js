@@ -1,17 +1,13 @@
-'use strict';
+import gulp from 'gulp';
+import gutil from 'gulp-util';
+import seq from 'run-sequence';
+import db from '../src/db/db';
 
-const gulp = require('./gulp');
-const gutil = require('gulp-util');
-const seq = require('run-sequence');
-const fromRoot = require('./util/fromRoot');
-const db = () => require(fromRoot('./bin/db/db'));
-
-// must compile before the following tasks
-gulp.task('db:build', cb =>seq('db:create', 'db:migrateLatest', 'db:seed', cb));
-gulp.task('db:rebuild', cb =>seq('db:drop', 'db:build', cb));
+gulp.task('db:build', cb => seq('db:create', 'db:migrateLatest', 'db:seed', cb));
+gulp.task('db:rebuild', cb => seq('db:drop', 'db:build', cb));
 
 gulp.task('db:create', () =>
-  db()
+  db
     .create()
     .catch(err =>
       Promise.resolve(gutil.log(err.toString() + ', continuing...'))
@@ -19,13 +15,13 @@ gulp.task('db:create', () =>
 );
 
 gulp.task('db:drop', () =>
-  db()
+  db
     .drop()
     .catch(err =>
       Promise.resolve(gutil.log(err.toString() + ', continuing...'))
     )
 );
 
-gulp.task('db:seed', () => db().seed());
-gulp.task('db:migrateLatest', () => db().migrateLatest());
-gulp.task('db:migrateRollback', () => db().migrateRollback());
+gulp.task('db:seed', () => db.seed());
+gulp.task('db:migrateLatest', () => db.migrateLatest());
+gulp.task('db:migrateRollback', () => db.migrateRollback());

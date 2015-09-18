@@ -1,31 +1,28 @@
-'use strict';
-
-const gulp = require('./gulp');
-const seq = require('run-sequence');
-const nodemon = require('gulp-nodemon');
-const fromRoot = require('./util/fromRoot');
-const env = require(fromRoot('./config')).env;
+import gulp from 'gulp';
+import path from 'path';
+import seq from 'run-sequence';
+import nodemon from 'gulp-nodemon';
+import { env } from '../config';
 
 gulp.task('default', ['dev']);
 
 gulp.task('dev', cb =>
   seq(
     'updateSchema',
-    'compile',
     'nodemon:debug',
+    'lint',
     'mocha',
-    'watch:compile',
     'watch:updateSchema',
-    'watch:mocha',
+    'watch:test',
     cb
   )
 );
 
 gulp.task('nodemon:debug', () =>
   nodemon({
-    exec: 'node ' + fromRoot('./node_modules/.bin/node-debug'),
-    script: fromRoot('./bin/app.js'),
-    watch: fromRoot('bin'),
+    exec: 'node ' + path.join(__dirname, '../node_modules/.bin/node-debug'),
+    script: path.join(__dirname, '../src/index.js'),
+    watch: path.join(__dirname, '../src'),
     args: ['--' + env]
   })
 );
@@ -33,8 +30,8 @@ gulp.task('nodemon:debug', () =>
 gulp.task('nodemon', () =>
   nodemon({
     exec: 'node --harmony',
-    script: fromRoot('./bin/app.js'),
-    watch: fromRoot('bin'),
+    script: path.join(__dirname, '../src/index.js'),
+    watch: path.join(__dirname, '../src'),
     args: ['--' + env]
   })
 );
