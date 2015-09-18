@@ -1,11 +1,24 @@
 export class User extends Object {};
+export class Widget extends Object {}
 export class Dog extends Object {};
 export class Note extends Object {};
 
+let viewer = new User();
+viewer.id = '1';
+viewer.first_name = 'Anonymous';
+viewer.last_name = '';
+
 let firstUser = new User();
-firstUser.id = '1';
+firstUser.id = '2';
 firstUser.first_name = 'Jeff';
 firstUser.last_name = 'Hanson';
+
+let widgets = ['What\'s-it', 'Who\'s-it', 'How\'s-it'].map((name, i) => {
+  let widget = new Widget();
+  widget.name = name;
+  widget.id = `${i}`;
+  return widget;
+});
 
 let firstDog = new Dog();
 firstDog.id = '1';
@@ -21,25 +34,40 @@ firstNote.user = '1';
 
 let data = {
   User: {
-    1: firstUser
+    1: viewer,
+    2: firstUser
   },
   Dog: {
     1: firstDog
   },
   Note: {
     1: firstNote
-  }
+  },
+  Widget: widgets
 };
 
 export function getUser(id) {
   return data.User[id];
+  // return id === viewer.id ? viewer : null;
 }
 
 export function getUsers() {
   return data.User.map(user => user);
 }
 
-let nextUser = 2;
+export function getViewer() {
+  return viewer;
+}
+
+export function getWidget(id){
+  return widgets.find(w => w.id === id);
+}
+
+export function getWidgets() {
+  return data.Widget.map(widget => widget);;
+}
+
+let nextUser = 3;
 export function createUser(user) {
   let newUser = new User();
 

@@ -1,30 +1,37 @@
-input AddUserInput {
-  first_name: String!
-  last_name: String!
-  clientMutationId: String!
-}
-
-type AddUserPayload {
-  user: User
-  clientMutationId: String!
-}
-
-type Mutation {
-  addUser(input: AddUserInput!): AddUserPayload
-}
-
 interface Node {
   id: ID!
 }
 
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
 type Root {
-  users: [User]
-  user(id: String): User
   node(id: ID!): Node
+  viewer: User
 }
 
 type User implements Node {
   id: ID!
   first_name: String
   last_name: String
+  widgets(before: String, after: String, first: Int, last: Int): WidgetConnection
+}
+
+type Widget implements Node {
+  id: ID!
+  name: String
+}
+
+type WidgetConnection {
+  pageInfo: PageInfo!
+  edges: [WidgetEdge]
+}
+
+type WidgetEdge {
+  node: Widget
+  cursor: String!
 }

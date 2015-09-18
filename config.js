@@ -6,7 +6,7 @@ const env = process.env.NODE_ENV || 'development';
 
 module.exports = {
   env: env,
-  port: 3000,
+  port: 1337,
   db: {
     name: 'dogo_' + env,
     client: 'postgresql',
@@ -22,9 +22,9 @@ module.exports = {
     schemaJSON: 'src/db/graphql/schema.json'
   },
   mocha: {
-    reporter: 'dot',
+    // reporter: 'dot',
     harmony: true,
-    env: { 'NODE_ENV': 'test' },
-    timeout: 15000
+    env: { 'NODE_ENV': 'test' }
+    // timeout: 15000
   }
 };

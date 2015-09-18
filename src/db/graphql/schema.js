@@ -27,7 +27,11 @@ import {
   getDog,
   createDog,
   getNote,
-  createNote
+  createNote,
+  Widget,
+  getViewer,
+  getWidget,
+  getWidgets,
 } from './database';
 
 var {nodeInterface, nodeField} = nodeDefinitions(
@@ -35,6 +39,8 @@ var {nodeInterface, nodeField} = nodeDefinitions(
     var {type, id} = fromGlobalId(globalId);
     if (type === 'User') {
       return getUser(id);
+    } else if (type === 'Widget') {
+      return getWidget(id);
     // } else if (type === 'Dog') {
     //   return getDog(id);
     // } else if (type === 'Note') {
@@ -46,6 +52,8 @@ var {nodeInterface, nodeField} = nodeDefinitions(
   (obj) => {
     if (obj instanceof User) {
       return GraphQLUser;
+    } else if (obj instanceof Widget)  {
+      return GraphQLWidget;
     // } else if (obj instanceof Dog) {
     //   return GraphQLDog;
     // } else if (obj instanceof Note) {
@@ -57,7 +65,8 @@ var {nodeInterface, nodeField} = nodeDefinitions(
 
 var GraphQLUser = new GraphQLObjectType({
   name: 'User',
-  fields: {
+  description: 'A person who uses our app',
+  fields: () => ({
     id: globalIdField('User'),
     first_name: {
       type: GraphQLString,
@@ -67,35 +76,61 @@ var GraphQLUser = new GraphQLObjectType({
       type: GraphQLString,
       // resolve: (obj) => obj.text
     },
+    widgets: {
+      type: widgetConnection,
+      description: 'A person\'s collection of widgets',
+      args: connectionArgs,
+      resolve: (_, args) => connectionFromArray(getWidgets(), args),
+    },
     // notes: {
     //   type: NotesConnection,
     //   args: connectionArgs,
     //   resolve: (obj, args) => connectionFromArray(getNotes(), args),
     // }
-  },
+  }),
   interfaces: [nodeInterface]
 });
 
-var Root = new GraphQLObjectType({
+var GraphQLWidget = new GraphQLObjectType({
+  name: 'Widget',
+  description: 'A shiny widget',
+  fields: () => ({
+    id: globalIdField('Widget'),
+    name: {
+      type: GraphQLString,
+      description: 'The name of the widget',
+    },
+  }),
+  interfaces: [nodeInterface],
+});
+
+var {connectionType: widgetConnection} =
+  connectionDefinitions({name: 'Widget', nodeType: GraphQLWidget});
+
+var GraphQLRoot = new GraphQLObjectType({
   name: 'Root',
   fields: {
-    users: {
-      type: new GraphQLList(GraphQLUser),
-      // args: {
-      //   id: {}
-      // },
-      resolve: () => getUsers()
-    },
-    user: {
+    node: nodeField,
+    viewer: {
       type: GraphQLUser,
-      args: {
-        id: {
-          type: GraphQLString
-        }
-      },
-      resolve: (root, {id}) => getUser(id)
+      resolve: () => getViewer(),
     },
-    node: nodeField
+    // users: {
+    //   type: new GraphQLList(GraphQLUser),
+    //   // args: {
+    //   //   id: {}
+    //   // },
+    //   resolve: () => getUsers()
+    // },
+    // user: {
+    //   type: GraphQLUser,
+    //   args: {
+    //     id: {
+    //       type: GraphQLString
+    //     }
+    //   },
+    //   resolve: (root, {id}) => getUser(id)
+    // },
   },
 });
 
@@ -120,7 +155,7 @@ var GraphQLAddUserMutation = mutationWithClientMutationId({
   }
 });
 
-var Mutation = new GraphQLObjectType({
+var GraphQLMutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
     addUser: GraphQLAddUserMutation
@@ -138,6 +173,6 @@ var Mutation = new GraphQLObjectType({
  * type we defined above) and export it.
  */
 export var GraphQLDogoSchema = new GraphQLSchema({
-  query: Root,
-  mutation: Mutation
+  query: GraphQLRoot
+  // mutation: GraphQLMutation
 });
