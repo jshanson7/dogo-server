@@ -2,4 +2,4 @@
 
 Backend for Dogo client apps.
 
-Restful ES6 node server using koa, postgres, gulp, and babel.
+ES6 node server using koa/graphql/postgres/gulp/babel...
