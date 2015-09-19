@@ -24,6 +24,7 @@ module.exports = {
     reporter: 'dot',
     harmony: true,
     env: { 'NODE_ENV': 'test' },
-    compilers: 'js:babel/register'
+    compilers: 'js:babel/register',
+    timeout: 10000
   }
 };
