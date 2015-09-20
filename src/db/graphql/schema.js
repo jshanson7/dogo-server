@@ -18,6 +18,7 @@ import {
 } from 'graphql-relay';
 
 import {
+  Admin,
   User,
   Dog,
   Note,
@@ -32,13 +33,16 @@ import {
   getViewer,
   getWidget,
   getWidgets,
+  getAdmin,
 } from './database';
 
 var {nodeInterface, nodeField} = nodeDefinitions(
-  (globalId) => {
+  async (globalId) => {
     var {type, id} = fromGlobalId(globalId);
-    if (type === 'User') {
-      return getUser(id);
+    if (type === 'Admin') {
+      return getAdmin();
+    } else if (type === 'User') {
+      return await getUser(id);
     } else if (type === 'Widget') {
       return getWidget(id);
     // } else if (type === 'Dog') {
@@ -50,7 +54,9 @@ var {nodeInterface, nodeField} = nodeDefinitions(
     }
   },
   (obj) => {
-    if (obj instanceof User) {
+    if (obj instanceof Admin) {
+      return GraphQLAdmin;
+    } else if (obj instanceof User) {
       return GraphQLUser;
     } else if (obj instanceof Widget) {
       return GraphQLWidget;
@@ -62,6 +68,24 @@ var {nodeInterface, nodeField} = nodeDefinitions(
     return null;
   }
 );
+
+var GraphQLAdmin = new GraphQLObjectType({
+  name: 'Admin',
+  description: 'An app administrator',
+  fields: () => ({
+    id: globalIdField('Admin'),
+    users: {
+      type: userConnection,
+      description: 'Application users',
+      args: connectionArgs,
+      resolve: async (_, args) => {
+        let users = await getUsers();
+        return connectionFromArray(users, args);
+      },
+    },
+  }),
+  interfaces: [nodeInterface]
+});
 
 var GraphQLUser = new GraphQLObjectType({
   name: 'User',
@@ -76,6 +100,9 @@ var GraphQLUser = new GraphQLObjectType({
       type: GraphQLString,
       // resolve: (obj) => obj.text
     },
+    // notes: {
+    //   type: GraphQLString
+    // },
     widgets: {
       type: widgetConnection,
       description: 'A person\'s collection of widgets',
@@ -90,6 +117,7 @@ var GraphQLUser = new GraphQLObjectType({
   }),
   interfaces: [nodeInterface]
 });
+
 
 var GraphQLWidget = new GraphQLObjectType({
   name: 'Widget',
@@ -107,6 +135,9 @@ var GraphQLWidget = new GraphQLObjectType({
 var {connectionType: widgetConnection} =
   connectionDefinitions({name: 'Widget', nodeType: GraphQLWidget});
 
+var {connectionType: userConnection} =
+  connectionDefinitions({name: 'User', nodeType: GraphQLUser});
+
 var GraphQLRoot = new GraphQLObjectType({
   name: 'Root',
   fields: {
@@ -114,6 +145,10 @@ var GraphQLRoot = new GraphQLObjectType({
     viewer: {
       type: GraphQLUser,
       resolve: () => getViewer(),
+    },
+    admin: {
+      type: GraphQLAdmin,
+      resolve: () => getAdmin(),
     },
     // users: {
     //   type: new GraphQLList(GraphQLUser),

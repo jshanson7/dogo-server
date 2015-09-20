@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development ./node_modules/.bin/gulp dev --harmony",
     "prod": "NODE_ENV=production node --harmony ./src/index.js",
     "compile": "./node_modules/.bin/gulp compile --harmony",
-    "update-schema": "babel-node ./src/db/graphql/updateSchema.js",
+    "update-schema": "NODE_ENV=development ./node_modules/.bin/gulp updateSchema --harmony",
     "watch:compile": "./node_modules/.bin/gulp watch:compile --harmony",
     "test": "npm run mocha",
     "mocha": "NODE_ENV=test ./node_modules/.bin/gulp mocha --harmony",

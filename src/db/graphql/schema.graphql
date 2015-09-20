@@ -1,3 +1,8 @@
+type Admin implements Node {
+  id: ID!
+  users(before: String, after: String, first: Int, last: Int): UserConnection
+}
+
 interface Node {
   id: ID!
 }
@@ -12,6 +17,7 @@ type PageInfo {
 type Root {
   node(id: ID!): Node
   viewer: User
+  admin: Admin
 }
 
 type User implements Node {
@@ -19,6 +25,16 @@ type User implements Node {
   first_name: String
   last_name: String
   widgets(before: String, after: String, first: Int, last: Int): WidgetConnection
+}
+
+type UserConnection {
+  pageInfo: PageInfo!
+  edges: [UserEdge]
+}
+
+type UserEdge {
+  node: User
+  cursor: String!
 }
 
 type Widget implements Node {

@@ -63,6 +63,11 @@ export default bookshelf.Model.extend({
       .catch(e => { throw new VError(e, 'invalid create params'); });
   },
 
+  fetchAll(params) {
+    return new this(params)
+      .fetchAll({ withRelated: this.relations.fetch });
+  },
+
   fetchParamsSchema() {
     const attributes = keys(this.prototype.defaults);
     const directions = ['asc', 'desc'];

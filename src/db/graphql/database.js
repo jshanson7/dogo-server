@@ -1,17 +1,28 @@
+import UserModel from '../../models/user';
+
+export class DogoApplication extends Object {}
 export class User extends Object {}
+export class Admin extends Object {}
 export class Widget extends Object {}
 export class Dog extends Object {}
 export class Note extends Object {}
 
+
+let admin = new Admin();
+admin.id = '1';
+admin.first_name = 'Jeff';
+admin.last_name = 'Hanson';
+admin.roles = ['admin'];
+
 let viewer = new User();
 viewer.id = '1';
-viewer.first_name = 'Anonymous';
-viewer.last_name = '';
+viewer.first_name = 'Jon';
+viewer.last_name = 'Snow';
 
 let firstUser = new User();
 firstUser.id = '2';
-firstUser.first_name = 'Jeff';
-firstUser.last_name = 'Hanson';
+firstUser.first_name = 'Lebron';
+firstUser.last_name = 'James';
 
 let widgets = ['What\'s-it', 'Who\'s-it', 'How\'s-it'].map((name, i) => {
   let widget = new Widget();
@@ -33,10 +44,7 @@ firstNote.dog = '1';
 firstNote.user = '1';
 
 let data = {
-  User: {
-    1: viewer,
-    2: firstUser
-  },
+  User: [viewer, firstUser],
   Dog: {
     1: firstDog
   },
@@ -46,13 +54,21 @@ let data = {
   Widget: widgets
 };
 
-export function getUser(id) {
-  return data.User[id];
-  // return id === viewer.id ? viewer : null;
+export function getAdmin(id) {
+  return admin;
 }
 
-export function getUsers() {
-  return data.User.map(user => user);
+export async function getUser(id) {
+  let user = (await UserModel.fetchOne({ id: id })).toJSON();
+  user.notes = user.notes.toString();
+  return user;
+}
+
+export async function getUsers() {
+  return (await UserModel.fetchAll()).toJSON().map(user => {
+    user.notes = user.notes.toString();
+    return user;
+  });
 }
 
 export function getViewer() {
@@ -111,4 +127,14 @@ export function createNote(note) {
 
   data.Note[newNote.id] = newNote;
   return newNote;
+}
+
+let dogoApplication = new DogoApplication();
+dogoApplication.users = [];
+dogoApplication.shelters = [];
+
+export async function getDogoApplication() {
+  dogoApplication.users = await getUsers();
+  dogoApplication.shelters = [];
+  return dogoApplication;
 }
