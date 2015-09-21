@@ -9,15 +9,16 @@ gulp.task('default', ['dev']);
 gulp.task('dev', cb =>
   seq(
     'updateSchema',
-    'nodemon:debug',
     'lint',
     'mocha',
+    'nodemon',
     'watch:updateSchema',
     'watch:test',
     cb
   )
 );
 
+// nodemon + node-inspector stopped working recently
 gulp.task('nodemon:debug', () =>
   nodemon({
     exec: 'node ' + path.join(__dirname, '../node_modules/.bin/node-debug'),

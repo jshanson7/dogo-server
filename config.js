@@ -6,6 +6,7 @@ module.exports = {
   env: env,
   port: 1337,
   host: 'localhost',
+  appKeys: secrets[env].APP_KEYS,
   db: {
     name: 'dogo_' + env,
     client: 'postgresql',

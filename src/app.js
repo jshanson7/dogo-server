@@ -39,13 +39,13 @@ app.use(function *(next) {
   yield next;
 });
 
-app.keys = ['secret'];
+app.keys = config.appKeys;
 app.use(session(app));
 app.use(passport.initialize());
 app.use(passport.session());
 
 qs(app);
-app.use(helmet.defaults());
+app.use(helmet());
 app.use(cors());
 app.use(mount('/graphql', graphqlHTTP({ schema: Schema, pretty: true })));
 app.use(bodyParser());
