@@ -1,9 +1,9 @@
 import { GraphQLObjectType } from 'graphql';
 import { connectionArgs, connectionFromArray, globalIdField } from 'graphql-relay';
-import ShelterConnection from './ShelterConnection';
-import UserConnection from './UserConnection';
 import { nodeInterface } from '../nodeDefinitions';
 import { getUsers, getShelters } from '../database';
+import ShelterConnection from './ShelterConnection';
+import UserConnection from './UserConnection';
 
 export default new GraphQLObjectType({
   name: 'App',

@@ -1,6 +1,6 @@
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
-import User from '../types/User';
+import { User } from '../types';
 import { getUser, createUser } from '../database';
 
 export default mutationWithClientMutationId({

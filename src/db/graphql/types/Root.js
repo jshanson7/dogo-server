@@ -9,7 +9,7 @@ export default new GraphQLObjectType({
     node: nodeField,
     app: {
       type: App,
-      resolve: () => getApp(),
+      resolve: async () => await getApp(),
     },
   }),
 });
