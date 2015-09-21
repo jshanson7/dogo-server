@@ -1,6 +1,6 @@
 import request from './utils/request';
 
-const endpoints = ['users', 'dogs', 'notes'];
+const endpoints = ['users', 'dogs', 'notes', 'shelters'];
 
 describe('Routes', () => {
 

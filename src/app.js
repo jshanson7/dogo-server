@@ -12,7 +12,7 @@ import session from 'koa-session';
 import passport from 'koa-passport';
 import routers from './routers';
 import config from '../config';
-import { GraphQLDogoSchema } from './db/graphql/schema';
+import Schema from './db/graphql/schema';
 
 const app = koa();
 app.env = config.env;
@@ -47,7 +47,7 @@ app.use(passport.session());
 qs(app);
 app.use(helmet.defaults());
 app.use(cors());
-app.use(mount('/graphql', graphqlHTTP({ schema: GraphQLDogoSchema, pretty: true })));
+app.use(mount('/graphql', graphqlHTTP({ schema: Schema, pretty: true })));
 app.use(bodyParser());
 app.use(koaValidate());
 

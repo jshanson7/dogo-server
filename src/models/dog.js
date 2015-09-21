@@ -2,6 +2,7 @@ import { defaults } from 'lodash';
 import Base from './base';
 import Note from './note';
 import User from './user';
+import Shelter from './shelter';
 
 export default Base.extend({
   tableName: 'dogs',
@@ -11,10 +12,15 @@ export default Base.extend({
     description: null,
     breed: null,
     dot_color: null,
+    shelter_id: null
   }, Base.prototype.defaults),
 
   notes: function () {
     return this.hasMany(Note);
+  },
+
+  shelter: function () {
+    return this.belongsTo(Shelter);
   },
 
   users: function () {
@@ -42,12 +48,16 @@ export default Base.extend({
       breed: {
         type: 'string',
         maxLength: 70
-      }
+      },
+      shelter_id: {
+        required: true,
+        type: 'integer'
+      },
     }
   },
   relations: {
-    fetch: ['notes', 'notes.author'],
-    fetchOne: ['notes', 'notes.author']
+    fetch: ['shelter', 'notes', 'notes.author'],
+    fetchOne: ['shelter', 'notes', 'notes.author']
   },
   searchable: ['name', 'description', 'breed', 'dot_color'],
 });

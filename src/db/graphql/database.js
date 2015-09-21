@@ -1,140 +1,57 @@
-import UserModel from '../../models/user';
+import User from '../../models/user';
+import Shelter from '../../models/shelter';
 
-export class DogoApplication extends Object {}
-export class User extends Object {}
-export class Admin extends Object {}
-export class Widget extends Object {}
-export class Dog extends Object {}
-export class Note extends Object {}
+// export class User extends Object {}
+// export class Dog extends Object {}
+// export class Note extends Object {}
 
+// export class Shelter extends Object {}
+// let familyDogRescue = new Shelter();
+// familyDogRescue.id = 1;
+// familyDogRescue.name = 'Family Dog Rescue';
 
-let admin = new Admin();
-admin.id = '1';
-admin.first_name = 'Jeff';
-admin.last_name = 'Hanson';
-admin.roles = ['admin'];
+export class App extends Object {}
+let app = new App();
+app.users = [];
+app.shelters = [];
 
-let viewer = new User();
-viewer.id = '1';
-viewer.first_name = 'Jon';
-viewer.last_name = 'Snow';
-
-let firstUser = new User();
-firstUser.id = '2';
-firstUser.first_name = 'Lebron';
-firstUser.last_name = 'James';
-
-let widgets = ['What\'s-it', 'Who\'s-it', 'How\'s-it'].map((name, i) => {
-  let widget = new Widget();
-  widget.name = name;
-  widget.id = `${i}`;
-  return widget;
-});
-
-let firstDog = new Dog();
-firstDog.id = '1';
-firstDog.name = 'Ghost';
-firstDog.description = 'Very loyal.';
-firstDog.breed = 'Dire Wolf';
-
-let firstNote = new Note();
-firstNote.id = '1';
-firstNote.text = 'Ghost tore the throat out of a wildling today';
-firstNote.dog = '1';
-firstNote.user = '1';
-
-let data = {
-  User: [viewer, firstUser],
-  Dog: {
-    1: firstDog
-  },
-  Note: {
-    1: firstNote
-  },
-  Widget: widgets
-};
-
-export function getAdmin(id) {
-  return admin;
+export async function getApp() {
+  app.users = await getUsers();
+  app.shelters = await getShelters();
+  return app;
 }
 
+exports.User = User;
+exports.Shelter = Shelter;
+
 export async function getUser(id) {
-  let user = (await UserModel.fetchOne({ id: id })).toJSON();
+  let user = (await User.fetchOne({ id: id })).toJSON();
   user.notes = user.notes.toString();
   return user;
 }
 
 export async function getUsers() {
-  return (await UserModel.fetchAll()).toJSON().map(user => {
+  return (await User.fetchAll()).toJSON().map(user => {
     user.notes = user.notes.toString();
     return user;
   });
 }
 
-export function getViewer() {
-  return viewer;
+export async function getShelter(id) {
+  return (await Shelter.fetchOne({ id: id })).toJSON();
 }
 
-export function getWidget(id) {
-  return widgets.find(w => w.id === id);
+export async function getShelters() {
+  return (await Shelter.fetchAll()).toJSON();
 }
 
-export function getWidgets() {
-  return data.Widget.map(widget => widget);
-}
+// export function createUser(user) {
+//   let newUser = new User();
 
-let nextUser = 3;
-export function createUser(user) {
-  let newUser = new User();
+//   newUser.id = '' + (nextUser++);
+//   newUser.first_name = user.first_name;
+//   newUser.last_name = user.last_name;
 
-  newUser.id = '' + (nextUser++);
-  newUser.first_name = user.first_name;
-  newUser.last_name = user.last_name;
-
-  data.User[newUser.id] = newUser;
-  return newUser;
-}
-
-export function getDog(id) {
-  return data.Dog[id];
-}
-
-let nextDog = 2;
-export function createDog(dog) {
-  let newDog = new Dog();
-
-  newDog.id = '' + (nextDog++);
-  newDog.name = dog.name;
-  newDog.description = dog.description;
-  newDog.breed = dog.breed;
-
-  data.Dog[newDog.id] = newDog;
-  return newDog;
-}
-
-export function getNote(id) {
-  return data.Note[id];
-}
-
-let nextNote = 2;
-export function createNote(note) {
-  let newNote = new Note();
-
-  newNote.id = '' + (nextNote++);
-  newNote.text = note.text;
-  newNote.dog = note.dog;
-  newNote.user = note.user;
-
-  data.Note[newNote.id] = newNote;
-  return newNote;
-}
-
-let dogoApplication = new DogoApplication();
-dogoApplication.users = [];
-dogoApplication.shelters = [];
-
-export async function getDogoApplication() {
-  dogoApplication.users = await getUsers();
-  dogoApplication.shelters = [];
-  return dogoApplication;
-}
+//   data.User[newUser.id] = newUser;
+//   return newUser;
+// }

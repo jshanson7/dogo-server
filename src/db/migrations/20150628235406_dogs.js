@@ -5,6 +5,7 @@ exports.up = (knex, Promise) => {
     t.string('name').notNull();
     t.string('breed').nullable();
     t.text('description').nullable();
+    t.integer('shelter_id').notNull().references('id').inTable('shelters');
     // t.string('thumbnail_url').nullable();
     // t.json('picture_ids').nullable();
     t.string('dot_color').nullable();

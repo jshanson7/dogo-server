@@ -1,6 +1,22 @@
-type Admin implements Node {
+input AddUserInput {
+  first_name: String!
+  last_name: String!
+  clientMutationId: String!
+}
+
+type AddUserPayload {
+  user: User
+  clientMutationId: String!
+}
+
+type App implements Node {
   id: ID!
   users(before: String, after: String, first: Int, last: Int): UserConnection
+  shelters(before: String, after: String, first: Int, last: Int): ShelterConnection
+}
+
+type Mutation {
+  addUser(input: AddUserInput!): AddUserPayload
 }
 
 interface Node {
@@ -16,15 +32,28 @@ type PageInfo {
 
 type Root {
   node(id: ID!): Node
-  viewer: User
-  admin: Admin
+  app: App
+}
+
+type Shelter implements Node {
+  id: ID!
+  name: String
+}
+
+type ShelterConnection {
+  pageInfo: PageInfo!
+  edges: [ShelterEdge]
+}
+
+type ShelterEdge {
+  node: Shelter
+  cursor: String!
 }
 
 type User implements Node {
   id: ID!
   first_name: String
   last_name: String
-  widgets(before: String, after: String, first: Int, last: Int): WidgetConnection
 }
 
 type UserConnection {
@@ -34,20 +63,5 @@ type UserConnection {
 
 type UserEdge {
   node: User
-  cursor: String!
-}
-
-type Widget implements Node {
-  id: ID!
-  name: String
-}
-
-type WidgetConnection {
-  pageInfo: PageInfo!
-  edges: [WidgetEdge]
-}
-
-type WidgetEdge {
-  node: Widget
   cursor: String!
 }
