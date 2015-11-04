@@ -17,7 +17,7 @@ import Schema from './db/graphql/schema';
 const app = koa();
 app.env = config.env;
 
-if (app.env === 'development') {
+if (app.env === 'development' || app.env === 'staging') {
   app.use(logger());
 }
 
