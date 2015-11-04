@@ -7,7 +7,7 @@ module.exports = {
   host: 'localhost',
   appKeys: secrets[env].APP_KEYS,
   db: {
-    name: env === 'staging' ? 'travis' : ('dogo_' + env),
+    name: 'dogo_' + env,
     client: 'postgresql',
     host: 'localhost',
     port: 5432,
