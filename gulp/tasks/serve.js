@@ -1,8 +1,12 @@
 import gulp from 'gulp';
-import path from 'path';
+import { join } from 'path';
 import seq from 'run-sequence';
 import nodemon from 'gulp-nodemon';
-import { env } from '../config';
+import { env } from '../../config';
+
+const nodeDebug = join(__dirname, '../../node_modules/.bin/node-debug');
+const app = join(__dirname, '../../src/index.js');
+const src = join(__dirname, '../../src');
 
 gulp.task('default', ['dev']);
 
@@ -21,9 +25,9 @@ gulp.task('dev', cb =>
 // nodemon + node-inspector stopped working recently
 gulp.task('nodemon:debug', () =>
   nodemon({
-    exec: 'node ' + path.join(__dirname, '../node_modules/.bin/node-debug'),
-    script: path.join(__dirname, '../src/index.js'),
-    watch: path.join(__dirname, '../src'),
+    exec: 'node ' + nodeDebug,
+    script: app,
+    watch: src,
     args: ['--' + env]
   })
 );
@@ -31,8 +35,8 @@ gulp.task('nodemon:debug', () =>
 gulp.task('nodemon', () =>
   nodemon({
     exec: 'node --harmony',
-    script: path.join(__dirname, '../src/index.js'),
-    watch: path.join(__dirname, '../src'),
+    script: app,
+    watch: src,
     args: ['--' + env]
   })
 );

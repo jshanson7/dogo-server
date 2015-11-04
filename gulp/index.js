@@ -1,4 +1,1 @@
-import './compile';
-import './serve';
-import './db';
-import './test';
+import './tasks';

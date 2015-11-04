@@ -54,10 +54,14 @@ app.use(koaValidate());
 app.use(mount('/api/v1', routers.routes()));
 app.use(compress());
 
-if (!module.parent) {
-  app.listen(config.port, config.host, () =>
+app.start = start;
+
+if (!module.parent) { start(); }
+
+export default app;
+
+function start() {
+  return app.listen(config.port, config.host, () =>
     console.log(`App listening on port ${config.port} env: ${config.env}`)
   );
 }
-
-export default app;
