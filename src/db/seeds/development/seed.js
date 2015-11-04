@@ -18,7 +18,7 @@ const users = [
     created_at: new Date(),
     updated_at: new Date(),
   }
-].concat(range(3, numberOfSeeds + 1).map(id => {
+].concat(range(3, numberOfSeeds + 1).map(() => {
   return {
     first_name: chance.first(),
     last_name: chance.last(),
@@ -33,7 +33,7 @@ const shelters = [
     created_at: new Date(),
     updated_at: new Date(),
   },
-].concat(range(2, numberOfSeeds + 1).map(id => {
+].concat(range(2, numberOfSeeds + 1).map(() => {
   return {
     name: chance.last() + ' Dog Shelter',
     created_at: chance.date({year: 2013}),
@@ -60,7 +60,7 @@ const dogs = [
     created_at: new Date(),
     updated_at: new Date()
   }
-].concat(range(3, numberOfSeeds + 1).map(id => {
+].concat(range(3, numberOfSeeds + 1).map(() => {
   return {
     name: chance.last(),
     breed: sample(breeds),
@@ -87,7 +87,7 @@ const notes = [
     created_at: new Date(),
     updated_at: new Date(),
   }
-].concat(range(3, numberOfSeeds).map(id => {
+].concat(range(3, numberOfSeeds).map(() => {
   return {
     text: chance.sentence(),
     dog_id: sample(range(1, numberOfSeeds + 1)),

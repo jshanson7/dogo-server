@@ -1,4 +1,4 @@
-import db from '../../db/db';
+import db from '../../src/db/db';
 
 export default () => db
   .drop()

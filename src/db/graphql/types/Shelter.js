@@ -1,5 +1,5 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
-import { globalIdField, connectionDefinitions } from 'graphql-relay';
+import { globalIdField } from 'graphql-relay';
 import { nodeInterface } from '../nodeDefinitions';
 
 export default new GraphQLObjectType({
