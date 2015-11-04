@@ -5,5 +5,6 @@ export default () => db
   .catch(err => Promise.resolve(console.log(err.toString() + ', continuing...')))
   .then(() => db
     .create()
+    .catch(err => Promise.resolve(console.log(err.toString() + ', continuing...')))
     .then(() => db.migrateLatest())
   );
