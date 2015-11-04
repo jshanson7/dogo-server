@@ -1,6 +1,6 @@
-const db = require('./config').db;
+import db from './db';
 
-module.exports = {
+export default {
   client: db.client,
   debug: false,
   connection: {

@@ -8,6 +8,7 @@ import istanbul from 'gulp-istanbul';
 import { debounce } from 'lodash';
 import { mocha as mochaConf } from '../../config';
 
+const root = join(__dirname, '../../');
 const src = join(__dirname, '../../src/**/*.js');
 const test = join(__dirname, '../../test/**/*.js');
 const testFiles = join(__dirname, '../../test/**/*.test.js');
@@ -24,7 +25,7 @@ gulp.task('mocha', () =>
 );
 
 gulp.task('lint', () =>
-  gulp.src([src, test])
+  gulp.src([root])
     .pipe(eslint())
     .pipe(eslint.format())
 );

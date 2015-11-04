@@ -1,5 +1,5 @@
 import knex from 'knex';
-import knexConf from '../../knexfile';
+import knexConf from '../../config/knexfile';
 import config from '../../config';
 
 const appDB = () => knex(knexConf);

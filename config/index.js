@@ -1,20 +1,14 @@
-const secrets = require('./secrets');
-const env = process.env.NODE_ENV || 'development';
+import secrets from './secrets';
+import env from './env';
+import db from './db';
+import knexfile from './knexfile';
 
-module.exports = {
+export default {
   env: env,
   port: 1337,
   host: 'localhost',
   appKeys: secrets[env].APP_KEYS,
-  db: {
-    name: 'dogo_' + env,
-    client: 'postgresql',
-    host: 'localhost',
-    port: 5432,
-    user: secrets[env].DB_USER,
-    password: secrets[env].DB_PASSWORD,
-    seed: env
-  },
+  db: db,
   graphql: {
     schema: 'src/db/graphql/schema.js',
     updateSchema: 'src/db/graphql/updateSchema.js',
@@ -26,5 +20,6 @@ module.exports = {
     env: { NODE_ENV: env === 'staging' ? 'staging' : 'test' },
     compilers: 'js:babel/register',
     timeout: 10000
-  }
+  },
+  knexfile: knexfile
 };
