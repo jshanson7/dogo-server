@@ -5,12 +5,11 @@ gulp.task('default', ['dev']);
 
 gulp.task('dev', cb =>
   seq(
-    'compile:schema',
-    'lint',
-    'mocha',
-    'nodemon',
-    'watch:compile:schema',
-    'watch:test',
+    'compile',
+    'test',
+    'serve',
+    'compile:watch',
+    'test:watch',
     cb
   )
 );

@@ -3,6 +3,7 @@ import { env } from '../src/config';
 
 log('gulpfile env:', colors.green(env));
 
+export * from './build';
 export * from './compile';
 export * from './serve';
 export * from './db';

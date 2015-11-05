@@ -15,21 +15,23 @@ const test = resolve(rootDir, 'test/**/*.js');
 const testFiles = resolve(rootDir, 'test/**/*.test.js');
 const nodeModules = resolve(rootDir, 'node_modules/**/*');
 
-gulp.task('watch:test', () =>
-  gulp.watch([src, test], debounce(() =>
-    seq('lint', 'mocha'), 1000)
-  )
-);
+gulp.task('test', ['lint', 'mocha']);
 
-gulp.task('mocha', () =>
-  gulp.src(testFiles, { read: false })
-    .pipe(spawnMocha(mochaConf))
+gulp.task('test:watch', () =>
+  gulp.watch([src, test], debounce(() =>
+    seq('test'), 1000)
+  )
 );
 
 gulp.task('lint', () =>
   gulp.src([js, `!${nodeModules}`])
     .pipe(eslint())
     .pipe(eslint.format())
+);
+
+gulp.task('mocha', () =>
+  gulp.src(testFiles, { read: false })
+    .pipe(spawnMocha(mochaConf))
 );
 
 gulp.task('coverage', (cb) =>

@@ -24,6 +24,6 @@ gulp.task('db:drop', () =>
   )
 );
 
-gulp.task('db:seed', () => seed());
-gulp.task('db:migrateLatest', () => migrateLatest());
-gulp.task('db:migrateRollback', () => migrateRollback());
+gulp.task('db:seed', seed);
+gulp.task('db:migrateLatest', migrateLatest);
+gulp.task('db:migrateRollback', migrateRollback);
