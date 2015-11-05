@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-import { join } from 'path';
+import { resolve } from 'path';
 import seq from 'run-sequence';
 import mocha from 'gulp-mocha';
 import spawnMocha from 'gulp-spawn-mocha';
@@ -8,10 +8,12 @@ import istanbul from 'gulp-istanbul';
 import { debounce } from 'lodash';
 import { mocha as mochaConf } from '../../config';
 
-const root = join(__dirname, '../../');
-const src = join(__dirname, '../../src/**/*.js');
-const test = join(__dirname, '../../test/**/*.js');
-const testFiles = join(__dirname, '../../test/**/*.test.js');
+const rootDir = resolve(__dirname, '../../');
+const js = resolve(rootDir, '**/*.js');
+const src = resolve(rootDir, 'src/**/*.js');
+const test = resolve(rootDir, 'test/**/*.js');
+const testFiles = resolve(rootDir, 'test/**/*.test.js');
+const nodeModules = resolve(rootDir, 'node_modules/**/*');
 
 gulp.task('watch:test', () =>
   gulp.watch([src, test], debounce(() =>
@@ -25,7 +27,7 @@ gulp.task('mocha', () =>
 );
 
 gulp.task('lint', () =>
-  gulp.src([root])
+  gulp.src([js, `!${nodeModules}`])
     .pipe(eslint())
     .pipe(eslint.format())
 );

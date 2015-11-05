@@ -1,12 +1,12 @@
 import gulp from 'gulp';
-import { join } from 'path';
+import { resolve } from 'path';
 import seq from 'run-sequence';
 import nodemon from 'gulp-nodemon';
 import { env } from '../../config';
 
-const nodeDebug = join(__dirname, '../../node_modules/.bin/node-debug');
-const app = join(__dirname, '../../src/index.js');
-const src = join(__dirname, '../../src');
+const nodeDebug = resolve(__dirname, '../../node_modules/.bin/node-debug');
+const app = resolve(__dirname, '../../src/index.js');
+const src = resolve(__dirname, '../../src');
 
 gulp.task('default', ['dev']);
 

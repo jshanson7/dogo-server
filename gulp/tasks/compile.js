@@ -1,12 +1,11 @@
 import gulp from 'gulp';
-import { join } from 'path';
-import { graphql as graphqlConf } from '../../config';
+import { resolve } from 'path';
+import updateSchema from '../../src/db/graphql/updateSchema';
+
+const graphql = resolve(__dirname, '../../src/db/graphql');
 
 gulp.task('watch:updateSchema', () =>
-  gulp.watch(join(__dirname, `../../${graphqlConf.schema}`), ['updateSchema'])
+  gulp.watch([`${graphql}/**/*.js`, `!${graphql}/schema.json`], ['updateSchema'])
 );
 
-gulp.task('updateSchema', cb => {
-  require(join(__dirname, `../../${graphqlConf.updateSchema}`));
-  cb();
-});
+gulp.task('updateSchema', updateSchema);

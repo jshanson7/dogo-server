@@ -1,20 +1,14 @@
 sudo: false
-
 language: node_js
-
 node_js:
 - '0.12'
-
 services:
 - postgresql
-
 before_install:
 - openssl aes-256-cbc -K $encrypted_70d385156fee_key -iv $encrypted_70d385156fee_iv
-  -in secrets.json.enc -out secrets.json -d
-
+  -in config/secrets.json.enc -out config/secrets.json -d
 before_script:
 - psql -c 'create database travis;' -U postgres
 - npm run db:build:staging
-
 script:
 - npm run test:staging
