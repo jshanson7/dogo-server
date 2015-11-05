@@ -11,7 +11,7 @@ import cors from 'koa-cors';
 import session from 'koa-session';
 import passport from 'koa-passport';
 import config from './config';
-import Schema from './db/graphql/schema';
+import schema from './db/graphql/schema';
 import { IndexRouter } from './routers';
 
 const app = koa();
@@ -50,7 +50,7 @@ app.use(passport.session());
 qs(app);
 app.use(helmet());
 app.use(cors());
-app.use(mount('/graphql', graphqlHTTP({ schema: Schema, pretty: true })));
+app.use(mount('/graphql', graphqlHTTP({ schema, pretty: true })));
 app.use(bodyParser());
 app.use(koaValidate());
 

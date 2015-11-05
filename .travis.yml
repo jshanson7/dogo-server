@@ -9,6 +9,6 @@ before_install:
   -in src/config/secrets.json.enc -out src/config/secrets.json -d
 before_script:
 - psql -c 'create database travis;' -U postgres
-- npm run db:build:staging
+- npm run build:staging
 script:
 - npm run test:staging
