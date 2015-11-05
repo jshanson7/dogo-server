@@ -1,15 +1,27 @@
 import koaRouter from 'koa-router';
-import dog from './dog';
-import user from './user';
-import note from './note';
-import shelter from './shelter';
+import createRestRouter from './utils/createRestRouter';
+import {
+  UserController,
+  DogController,
+  ShelterController,
+  NoteController
+} from '../controllers';
 
-const router = koaRouter();
+const UserRouter = createRestRouter(UserController);
+const DogRouter = createRestRouter(DogController);
+const ShelterRouter = createRestRouter(ShelterController);
+const NoteRouter = createRestRouter(NoteController);
+const IndexRouter = koaRouter()
+  .get('/', function* (next) { this.body = 'Dogo api'; yield next; })
+  .use('/users', UserRouter.routes())
+  .use('/dogs', DogRouter.routes())
+  .use('/shelters', ShelterRouter.routes())
+  .use('/notes', NoteRouter.routes());
 
-router.get('/', function* (next) { this.body = 'Dogo api'; yield next; });
-router.use('/dogs', dog.routes());
-router.use('/users', user.routes());
-router.use('/notes', note.routes());
-router.use('/shelters', shelter.routes());
-
-export default router;
+export default {
+  IndexRouter,
+  UserRouter,
+  DogRouter,
+  ShelterRouter,
+  NoteRouter
+};

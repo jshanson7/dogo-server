@@ -1,5 +1,5 @@
-import request from './utils/request';
-import resetDB from './utils/resetDB';
+import request from '../utils/request';
+import resetDB from '../utils/resetDB';
 import { isEqual, omit, findWhere, set, sample } from 'lodash';
 
 const generatedAttrs = ['id', 'created_at', 'updated_at', 'notes', 'users', 'dog', 'dogs', 'author', 'shelter'];
@@ -8,32 +8,32 @@ const restOptions = [
     model: 'user',
     endpoint: 'users',
     requiredRelations: [],
-    valid: require('./data/users_valid.json'),
-    invalid: require('./data/users_invalid.json'),
+    valid: require('../data/users_valid.json'),
+    invalid: require('../data/users_invalid.json'),
     created: []
   },
   {
     model: 'shelter',
     endpoint: 'shelters',
     requiredRelations: [],
-    valid: require('./data/shelters_valid.json'),
-    invalid: require('./data/shelters_invalid.json'),
+    valid: require('../data/shelters_valid.json'),
+    invalid: require('../data/shelters_invalid.json'),
     created: []
   },
   {
     model: 'dog',
     endpoint: 'dogs',
     requiredRelations: ['shelter'],
-    valid: require('./data/dogs_valid.json'),
-    invalid: require('./data/dogs_invalid.json'),
+    valid: require('../data/dogs_valid.json'),
+    invalid: require('../data/dogs_invalid.json'),
     created: []
   },
   {
     model: 'note',
     endpoint: 'notes',
     requiredRelations: ['dog', 'user'],
-    valid: require('./data/notes_valid.json'),
-    invalid: require('./data/notes_invalid.json'),
+    valid: require('../data/notes_valid.json'),
+    invalid: require('../data/notes_invalid.json'),
     created: []
   }
 ];

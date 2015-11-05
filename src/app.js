@@ -10,11 +10,14 @@ import graphqlHTTP from 'koa-graphql';
 import cors from 'koa-cors';
 import session from 'koa-session';
 import passport from 'koa-passport';
-import routers from './routers';
 import config from './config';
 import Schema from './db/graphql/schema';
+import { IndexRouter } from './routers';
 
 const app = koa();
+export default app;
+if (!module.parent) { start(); }
+
 app.env = config.env;
 
 if (app.env === 'development' || app.env === 'staging') {
@@ -51,14 +54,10 @@ app.use(mount('/graphql', graphqlHTTP({ schema: Schema, pretty: true })));
 app.use(bodyParser());
 app.use(koaValidate());
 
-app.use(mount('/api/v1', routers.routes()));
+app.use(mount('/api/v1', IndexRouter.routes()));
 app.use(compress());
 
 app.start = start;
-
-if (!module.parent) { start(); }
-
-export default app;
 
 function start() {
   return app.listen(config.port, config.host, () =>
