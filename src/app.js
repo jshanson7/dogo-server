@@ -11,7 +11,7 @@ import cors from 'koa-cors';
 import session from 'koa-session';
 import passport from 'koa-passport';
 import routers from './routers';
-import config from '../config';
+import config from './config';
 import Schema from './db/graphql/schema';
 
 const app = koa();

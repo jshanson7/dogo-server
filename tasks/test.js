@@ -6,9 +6,9 @@ import spawnMocha from 'gulp-spawn-mocha';
 import eslint from 'gulp-eslint';
 import istanbul from 'gulp-istanbul';
 import { debounce } from 'lodash';
-import { mocha as mochaConf } from '../../config';
+import mochaConf from '../test/config';
 
-const rootDir = resolve(__dirname, '../../');
+const rootDir = resolve(__dirname, '../');
 const js = resolve(rootDir, '**/*.js');
 const src = resolve(rootDir, 'src/**/*.js');
 const test = resolve(rootDir, 'test/**/*.js');

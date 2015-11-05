@@ -14,10 +14,10 @@ export default {
     max: 1
   },
   migrations: {
-    directory: resolve(__dirname, '../src/db/migrations'),
+    directory: resolve(__dirname, '../db/migrations'),
     tableName: 'knex_migrations'
   },
   seeds: {
-    directory: resolve(__dirname, '../src/db/seeds/' + db.seed)
+    directory: resolve(__dirname, '../db/seeds/' + db.seed)
   }
 };
