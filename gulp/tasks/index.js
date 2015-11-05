@@ -3,8 +3,6 @@ import { env } from '../../config';
 
 log('gulpfile env:', colors.green(env));
 
-require('gulp').task('noop', function() {});
-
 export * from './compile';
 export * from './serve';
 export * from './db';

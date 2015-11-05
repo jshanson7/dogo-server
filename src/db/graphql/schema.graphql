@@ -11,8 +11,8 @@ type AddUserPayload {
 
 type App implements Node {
   id: ID!
-  users(before: String, after: String, first: Int, last: Int): UserConnection
-  shelters(before: String, after: String, first: Int, last: Int): ShelterConnection
+  users(after: String, first: Int, before: String, last: Int): UserConnection
+  shelters(after: String, first: Int, before: String, last: Int): ShelterConnection
 }
 
 type Mutation {
