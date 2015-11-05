@@ -1,1 +1,3 @@
-module.exports = require('../test/seed');
+exports.seed = (knex, Promise) => {
+  return Promise.resolve();
+};

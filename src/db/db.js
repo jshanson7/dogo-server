@@ -3,14 +3,8 @@ import knexConf from '../../config/knexfile';
 import config from '../../config';
 
 const appDB = () => knex(knexConf);
-const pg = () => knex({
-  client: config.db.client,
-  connection: {
-    database: null,
-    host: config.db.host
-  }
-});
-const wrapConn = (conn, cb) => cb(conn)
+const pg = () => knex({ client: config.db.client, connection: { host: config.db.host } });
+const wrapConn = (conn, connAction) => connAction(conn)
   .catch(err => conn.destroy().then(() => Promise.reject(err)))
   .then(res => conn.destroy().then(() => Promise.resolve(res)));
 

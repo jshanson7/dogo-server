@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import db from './db';
 
 export default {
@@ -9,14 +10,14 @@ export default {
     password: db.password
   },
   pool: {
-    min: 1,
+    min: 0,
     max: 1
   },
   migrations: {
-    directory: './src/db/migrations',
+    directory: resolve(__dirname, '../src/db/migrations'),
     tableName: 'knex_migrations'
   },
   seeds: {
-    directory: './src/db/seeds/' + db.seed
+    directory: resolve(__dirname, '../src/db/seeds/' + db.seed)
   }
 };
