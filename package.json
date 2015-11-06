@@ -14,7 +14,7 @@
     "test": "NODE_ENV=test npm run gulp -- test",
     "test:staging": "NODE_ENV=staging npm run gulp -- test",
     "test:watch": "NODE_ENV=test npm run gulp -- test:watch",
-    "cover": "npm run gulp -- cover",
+    "cover": "NODE_ENV=test npm run gulp -- cover",
     "db:build": "npm run gulp -- db:build",
     "db:drop": "npm run gulp -- db:drop",
     "db:rebuild": "npm run gulp -- db:rebuild",
@@ -63,14 +63,11 @@
     "gulp": "^3.9.0",
     "gulp-babel-istanbul": "^0.10.1",
     "gulp-eslint": "^1.0.0",
-    "gulp-istanbul": "^0.10.0",
     "gulp-mocha": "^2.1.3",
     "gulp-nodemon": "^2.0.4",
     "gulp-spawn-mocha": "^2.2.1",
     "gulp-util": "^3.0.6",
     "gulp-watch": "^4.3.5",
-    "istanbul": "^0.3.20",
-    "path": "^0.12.7",
     "run-sequence": "^1.1.3",
     "supertest": "^1.1.0"
   }

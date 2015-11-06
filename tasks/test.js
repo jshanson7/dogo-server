@@ -13,6 +13,7 @@ const src = resolve(__dirname, '../src/**/*.js');
 const test = resolve(__dirname, '../test/**/*.js');
 const testFiles = resolve(__dirname, '../test/**/*.test.js');
 const nodeModules = resolve(__dirname, '../node_modules/**/*');
+const coverage = resolve(__dirname, '../coverage/**/*');
 
 gulp.task('test', ['lint', 'mocha']);
 
@@ -23,7 +24,7 @@ gulp.task('test:watch', ['test'], () =>
 );
 
 gulp.task('lint', () =>
-  gulp.src([js, `!${nodeModules}`])
+  gulp.src([js, `!${nodeModules}`, `!${coverage}`])
     .pipe(eslint())
     .pipe(eslint.format())
 );
@@ -43,5 +44,5 @@ gulp.task('cover', cb => {
         .pipe(istanbul.writeReports())
         // .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
         .on('end', cb)
-    )
+    );
 });
