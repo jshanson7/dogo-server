@@ -4,20 +4,19 @@ import seq from 'run-sequence';
 import mocha from 'gulp-mocha';
 import spawnMocha from 'gulp-spawn-mocha';
 import eslint from 'gulp-eslint';
-import istanbul from 'gulp-istanbul';
+import istanbul from 'gulp-babel-istanbul';
 import { debounce } from 'lodash';
 import mochaConf from '../test/config';
 
-const rootDir = resolve(__dirname, '../');
-const js = resolve(rootDir, '**/*.js');
-const src = resolve(rootDir, 'src/**/*.js');
-const test = resolve(rootDir, 'test/**/*.js');
-const testFiles = resolve(rootDir, 'test/**/*.test.js');
-const nodeModules = resolve(rootDir, 'node_modules/**/*');
+const js = resolve(__dirname, '../**/*.js');
+const src = resolve(__dirname, '../src/**/*.js');
+const test = resolve(__dirname, '../test/**/*.js');
+const testFiles = resolve(__dirname, '../test/**/*.test.js');
+const nodeModules = resolve(__dirname, '../node_modules/**/*');
 
 gulp.task('test', ['lint', 'mocha']);
 
-gulp.task('test:watch', () =>
+gulp.task('test:watch', ['test'], () =>
   gulp.watch([src, test], debounce(() =>
     seq('test'), 1000)
   )
@@ -34,8 +33,8 @@ gulp.task('mocha', () =>
     .pipe(spawnMocha(mochaConf))
 );
 
-gulp.task('coverage', (cb) =>
-  gulp.src([src, test])
+gulp.task('cover', cb => {
+  gulp.src(src)
     .pipe(istanbul())
     .pipe(istanbul.hookRequire())
     .on('finish', () =>
@@ -43,6 +42,6 @@ gulp.task('coverage', (cb) =>
         .pipe(mocha(mochaConf))
         .pipe(istanbul.writeReports())
         // .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
-        .on('finish', cb)
+        .on('end', cb)
     )
-);
+});

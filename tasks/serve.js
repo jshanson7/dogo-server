@@ -1,18 +1,10 @@
 import gulp from 'gulp';
 import { resolve } from 'path';
 import nodemon from 'gulp-nodemon';
-import { env } from '../src/config';
 
-const app = resolve(__dirname, '../src/index.js');
-const src = resolve(__dirname, '../src');
+const app = resolve(__dirname, '../src');
 
-gulp.task('serve', ['nodemon']);
-
-gulp.task('nodemon', () =>
-  nodemon({
-    exec: 'node --harmony',
-    script: app,
-    watch: src,
-    args: ['--' + env]
-  })
-);
+gulp.task('serve', ['node']);
+gulp.task('serve:watch', ['nodemon']);
+gulp.task('node', () => require(app));
+gulp.task('nodemon', () => nodemon({ exec: 'node', script: app, watch: app }));
