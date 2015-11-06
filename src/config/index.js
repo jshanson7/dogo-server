@@ -3,15 +3,8 @@ import env from './env';
 import db from './db';
 import knex from './knex';
 
-const port = 1337;
-const host = 'localhost';
+const port = process.env.PORT || 1337;
+const host = process.env.HOST || 'localhost';
 const keys = secrets[env].APP_KEYS;
 
-export default {
-  env,
-  db,
-  knex,
-  port,
-  host,
-  keys
-};
+export default { env, db, knex, port, host, keys };
