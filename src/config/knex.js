@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import db from './db';
+import env from './env';
 
 export default {
   client: db.client,
@@ -18,6 +19,6 @@ export default {
     tableName: 'knex_migrations'
   },
   seeds: {
-    directory: resolve(__dirname, '../db/seeds/' + db.seed)
+    directory: resolve(__dirname, '../db/seeds/' + env)
   }
 };

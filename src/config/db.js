@@ -7,6 +7,5 @@ export default {
   host: 'localhost',
   port: 5432,
   user: secrets[env].DB_USER,
-  password: secrets[env].DB_PASSWORD,
-  seed: env
+  password: secrets[env].DB_PASSWORD
 };
