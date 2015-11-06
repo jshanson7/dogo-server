@@ -12,3 +12,5 @@ before_script:
 - npm run build:staging
 script:
 - npm run test:staging && npm run cover:staging
+after_script:
+- cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

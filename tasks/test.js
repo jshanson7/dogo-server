@@ -40,7 +40,7 @@ gulp.task('cover', cb => {
     .pipe(istanbul.hookRequire())
     .on('finish', () =>
       gulp.src(testFiles)
-        .pipe(mocha(mochaConf))
+        .pipe(mocha(Object.assign({}, mochaConf, { reporter: 'spec' })))
         .pipe(istanbul.writeReports())
         // .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
         .on('end', () => { cb(); process.exit(); })
