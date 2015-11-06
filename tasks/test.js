@@ -43,6 +43,7 @@ gulp.task('cover', cb => {
         .pipe(mocha(mochaConf))
         .pipe(istanbul.writeReports())
         // .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
-        .on('end', cb)
+        .on('end', () => { cb(); process.exit(); })
+        .on('error', err => { cb(err); process.exit(1); })
     );
 });
