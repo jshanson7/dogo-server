@@ -15,6 +15,7 @@
     "test:staging": "NODE_ENV=staging npm run gulp -- test",
     "test:watch": "NODE_ENV=test npm run gulp -- test:watch",
     "cover": "NODE_ENV=test npm run gulp -- cover",
+    "cover:staging": "NODE_ENV=staging npm run gulp -- cover",
     "db:build": "npm run gulp -- db:build",
     "db:drop": "npm run gulp -- db:drop",
     "db:rebuild": "npm run gulp -- db:rebuild",
