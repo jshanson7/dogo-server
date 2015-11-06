@@ -29,7 +29,7 @@
     "db:drop:all": "npm run db:drop:prod && npm run db:drop:test && npm run db:drop:dev",
     "db:rebuild:all": "npm run db:drop:all && npm run db:build:all",
     "encrypt:secrets": "travis login --org && travis encrypt-file src/config/secrets.json src/config/secrets.json.enc --add",
-    "lint": "eslint .",
+    "lint": "npm run gulp -- lint",
     "gulp": "./node_modules/.bin/gulp"
   },
   "dependencies": {
