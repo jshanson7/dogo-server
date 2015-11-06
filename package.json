@@ -2,13 +2,15 @@
   "name": "dogo-server",
   "version": "0.0.1",
   "private": true,
+  "main": "src",
   "scripts": {
     "start": "npm run dev",
     "build": "npm run gulp -- build",
     "rebuild": "npm run gulp -- rebuild",
     "build:staging": "NODE_ENV=staging npm run build",
     "dev": "npm run gulp -- dev",
-    "prod": "NODE_ENV=production node ./src",
+    "prod": "NODE_ENV=production npm run forever -- start ./src",
+    "prod:stop": "NODE_ENV=production npm run forever -- stop ./src",
     "compile": "npm run gulp -- compile",
     "compile:watch": "npm run gulp -- compile:watch",
     "test": "NODE_ENV=test npm run gulp -- test",
@@ -30,11 +32,13 @@
     "db:rebuild:all": "npm run db:drop:all && npm run db:build:all",
     "encrypt:secrets": "travis login --org && travis encrypt-file src/config/secrets.json src/config/secrets.json.enc --add",
     "lint": "npm run gulp -- lint",
-    "gulp": "./node_modules/.bin/gulp"
+    "gulp": "node_modules/.bin/gulp",
+    "forever": "node_modules/.bin/forever"
   },
   "dependencies": {
     "babel-runtime": "^5.8.29",
     "bookshelf": "^0.9.1",
+    "forever": "^0.15.1",
     "graphql": "^0.4.12",
     "graphql-relay": "^0.3.5",
     "knex": "^0.9.0",
