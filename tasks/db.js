@@ -9,7 +9,7 @@ import {
   migrateRollback,
 } from '../src/db/db';
 
-gulp.task('db:build', cb => seq('db:create', 'db:migrateLatest', 'db:seed', cb));
+gulp.task('db:build', cb => seq('db:create', 'db:migrate:latest', 'db:seed', cb));
 gulp.task('db:rebuild', cb => seq('db:drop', 'db:build', cb));
 
 gulp.task('db:create', () =>
@@ -25,5 +25,5 @@ gulp.task('db:drop', () =>
 );
 
 gulp.task('db:seed', seed);
-gulp.task('db:migrateLatest', migrateLatest);
-gulp.task('db:migrateRollback', migrateRollback);
+gulp.task('db:migrate:latest', migrateLatest);
+gulp.task('db:migrate:rollback', migrateRollback);
