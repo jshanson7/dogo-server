@@ -1,10 +1,12 @@
 import fs from 'fs';
-import path from 'path';
+import { resolve, join } from 'path';
 import { graphql } from 'graphql';
 import { introspectionQuery, printSchema } from 'graphql/utilities';
 
-const getSchema = () => require('./schema');
-const closeConnections = () => require('../bookshelf').close();
+const dbDir = resolve(__dirname, '../../src/db');
+const graphqlDir = resolve(dbDir, 'graphql');
+const getSchema = () => require(resolve(graphqlDir, 'schema'));
+const closeConnections = () => require(resolve(dbDir, 'bookshelf')).close();
 
 export default async () => {
   const Schema = getSchema();
@@ -16,13 +18,13 @@ export default async () => {
   } else {
 
     fs.writeFileSync(
-      path.join(__dirname, './schema.json'),
+      join(graphqlDir, './schema.json'),
       JSON.stringify(result, null, 2)
     );
 
     // Save user readable type system shorthand of schema
     fs.writeFileSync(
-      path.join(__dirname, './schema.graphql'),
+      join(graphqlDir, './schema.graphql'),
       printSchema(Schema)
     );
   }
