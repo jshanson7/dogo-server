@@ -10,5 +10,5 @@ gulp.task('compile:watch', ['compile:schema', 'compile:schema:watch']);
 gulp.task('compile:schema', compileSchema);
 
 gulp.task('compile:schema:watch', () =>
-  gulp.watch([`${graphql}/**/*.js`, `!${graphql}/schema.json`], ['compile:schema'])
+  gulp.watch(`${graphql}/**/*.js`, ['compile:schema'])
 );
