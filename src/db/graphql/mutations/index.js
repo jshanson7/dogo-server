@@ -1,7 +1,2 @@
-import Root from './Root';
-import AddUser from './AddUser';
-
-export {
-  Root,
-  AddUser
-};
+export Root from './Root';
+export AddUser from './AddUser';

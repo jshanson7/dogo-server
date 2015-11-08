@@ -1,15 +1,6 @@
-import Root from './Root';
-import App from './App';
-import Shelter from './Shelter';
-import ShelterConnection from './ShelterConnection';
-import User from './User';
-import UserConnection from './UserConnection';
-
-export {
-  Root,
-  App,
-  Shelter,
-  ShelterConnection,
-  User,
-  UserConnection,
-};
+export Root from './Root';
+export App from './App';
+export Shelter from './Shelter';
+export ShelterConnection from './ShelterConnection';
+export User from './User';
+export UserConnection from './UserConnection';

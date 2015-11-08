@@ -4,9 +4,7 @@ import Shelter from '../models/shelter';
 import Note from '../models/note';
 import restMethodsForModel from './utils/restMethodsForModel';
 
-export default {
-  UserController: restMethodsForModel(User),
-  DogController: restMethodsForModel(Dog),
-  ShelterController: restMethodsForModel(Shelter),
-  NoteController: restMethodsForModel(Note)
-};
+export const UserController = restMethodsForModel(User);
+export const DogController = restMethodsForModel(Dog);
+export const ShelterController = restMethodsForModel(Shelter);
+export const NoteController = restMethodsForModel(Note);

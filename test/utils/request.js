@@ -1,3 +1,3 @@
 import superagent from 'supertest';
 
-export default () => superagent(require('../../src/app').listen());
+export default () => superagent(require('../../src/app').app.listen());
