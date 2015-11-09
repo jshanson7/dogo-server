@@ -1,9 +1,10 @@
 import { GraphQLObjectType } from 'graphql';
 import { connectionArgs, connectionFromArray, globalIdField } from 'graphql-relay';
 import { nodeInterface } from '../nodeDefinitions';
-import { getUsers, getShelters } from '../database';
+import { getUsers, getShelters, getDogs } from '../database';
 import ShelterConnection from './ShelterConnection';
 import UserConnection from './UserConnection';
+import DogConnection from './DogConnection';
 
 export default new GraphQLObjectType({
   name: 'App',
@@ -24,6 +25,14 @@ export default new GraphQLObjectType({
       args: connectionArgs,
       resolve: async (_, args) => {
         return connectionFromArray(await getShelters(), args);
+      },
+    },
+    dogs: {
+      type: DogConnection,
+      description: 'App dogs',
+      args: connectionArgs,
+      resolve: async (_, args) => {
+        return connectionFromArray(await getDogs(), args);
       },
     },
   }),

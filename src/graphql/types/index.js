@@ -4,3 +4,5 @@ export Shelter from './Shelter';
 export ShelterConnection from './ShelterConnection';
 export User from './User';
 export UserConnection from './UserConnection';
+export Dog from './Dog';
+export DogConnection from './DogConnection';
