@@ -1,15 +1,11 @@
 import { resolve } from 'path';
-import db from './db';
-import env from './env';
+import { name as database, client, user, password } from './db';
+import { env } from './app';
 
 export default {
-  client: db.client,
+  client,
   debug: false,
-  connection: {
-    database: db.name,
-    user: db.user,
-    password: db.password
-  },
+  connection: { database, user, password },
   pool: {
     min: 0,
     max: 1

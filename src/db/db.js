@@ -1,17 +1,45 @@
 import knex from 'knex';
-import { db, knex as knexConf } from '../config';
+import knexConf from '../config/knex';
+import { client, host, name } from '../config/db';
 
-const appDB = () => knex(knexConf);
-const pg = () => knex({ client: db.client, connection: { host: db.host } });
-const wrapConn = (conn, connAction) => connAction(conn)
-  .catch(err => conn.destroy().then(() => Promise.reject(err)))
-  .then(res => conn.destroy().then(() => Promise.resolve(res)));
+export function connect() {
+  return knex(knexConf);
+}
 
-export default {
-  conn: appDB,
-  create: () => wrapConn(pg(), conn => conn.raw('CREATE DATABASE ' + db.name)),
-  drop: () => wrapConn(pg(), conn => conn.raw('DROP DATABASE ' + db.name)),
-  migrateLatest: () => wrapConn(appDB(), conn => conn.migrate.latest()),
-  migrateRollback: () => wrapConn(appDB(), conn => conn.migrate.rollback()),
-  seed: () => wrapConn(appDB(), conn => conn.seed.run())
-};
+export function create() {
+  return getWrappedPGConnection(conn => conn.raw('CREATE DATABASE ' + name));
+}
+
+export function drop() {
+  return getWrappedPGConnection(conn => conn.raw('DROP DATABASE ' + name));
+}
+
+export function migrateLatest() {
+  return getWrappedAppDBConnection(conn => conn.migrate.latest());
+}
+
+export function migrateRollback() {
+  return getWrappedAppDBConnection(conn => conn.migrate.rollback());
+}
+
+export function seed() {
+  return getWrappedAppDBConnection(conn => conn.seed.run());
+}
+
+function getWrappedAppDBConnection(promise) {
+  return wrapConnection(connect(), promise);
+}
+
+function getWrappedPGConnection(promise) {
+  return wrapConnection(pg(), promise);
+}
+
+function wrapConnection(conn, promise) {
+  return promise(conn)
+    .catch(err => conn.destroy().then(() => Promise.reject(err)))
+    .then(res => conn.destroy().then(() => Promise.resolve(res)));
+}
+
+function pg() {
+  return knex({ client, connection: { host } });
+}

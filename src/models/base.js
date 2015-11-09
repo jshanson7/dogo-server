@@ -1,9 +1,9 @@
 import VError from 'verror';
 import { keys, has, difference, result, defaults } from 'lodash';
 import validate from '../utils/validate';
-import bookshelf from '../db/bookshelf';
+import { bookshelfConn } from '../db/bookshelf';
 
-export default bookshelf.Model.extend({
+export default bookshelfConn.Model.extend({
   hasTimestamps: ['created_at', 'updated_at'],
 
   defaults: {

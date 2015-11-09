@@ -1,8 +1,7 @@
 import bookshelf from 'bookshelf';
-import db from './db';
+import { connect } from './db';
 
-const knex = db.conn();
-const bookshelfConn = bookshelf(knex);
+const conn = connect();
 
-export default bookshelfConn;
-export const close = knex.destroy;
+export const bookshelfConn = bookshelf(conn);
+export const close = conn.destroy;

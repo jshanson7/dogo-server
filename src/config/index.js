@@ -1,9 +1,10 @@
 import secrets from './secrets';
-import env from './env';
+import { env } from './app';
 
 export secrets from './secrets';
-export env from './env';
-export db from './db';
+export { env as env } from './app';
+export * as app from './app';
+export * as db from './db';
 export knex from './knex';
 export const port = process.env.APP_PORT || 1337;
 export const host = process.env.APP_HOST || 'localhost';
