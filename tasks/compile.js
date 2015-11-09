@@ -2,7 +2,7 @@ import gulp from 'gulp';
 import { resolve } from 'path';
 import compileSchema from './utils/compileSchema';
 
-const graphql = resolve(__dirname, '../src/db/graphql');
+const graphql = resolve(__dirname, '../src/graphql');
 
 gulp.task('compile', ['compile:schema']);
 gulp.task('compile:watch', ['compile:schema', 'compile:schema:watch']);

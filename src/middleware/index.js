@@ -12,7 +12,7 @@ import passport from 'koa-passport';
 import errorHandler from './errorHandler';
 import sessionViewCounter from './sessionViewCounter';
 import { env } from '../config';
-import schema from '../db/graphql/schema';
+import schema from '../graphql/schema';
 import { IndexRouter } from '../routers';
 
 export default app => {
