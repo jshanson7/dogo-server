@@ -38,6 +38,7 @@
   "dependencies": {
     "babel-runtime": "^5.8.29",
     "bookshelf": "^0.9.1",
+    "co": "^4.6.0",
     "forever": "^0.15.1",
     "graphql": "^0.4.12",
     "graphql-relay": "^0.3.5",
