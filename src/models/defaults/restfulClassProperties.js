@@ -8,7 +8,12 @@ export default {
   searchable: [],
 
   async fetch(params) {
-    assertValid(params, result(this, 'fetchParamsSchema'), { cast: true }, 'invalid fetch params');
+    assertValid(
+      params,
+      result(this, 'fetchParamsSchema'),
+      { cast: true },
+      'invalid fetch params'
+    );
 
     const config = defaults({}, params, result(this, 'fetchParamsDefaults'));
     const searchTerm = has(config, 'search') ? '%' + config.search + '%' : null;
@@ -28,7 +33,12 @@ export default {
   },
 
   async fetchOne(params) {
-    assertValid(params, result(this, 'fetchOneParamsSchema'), { cast: true }, 'invalid fetchOne params');
+    assertValid(
+      params,
+      result(this, 'fetchOneParamsSchema'),
+      { cast: true },
+      'invalid fetchOne params'
+    );
 
     const config = defaults({}, params, result(this, 'fetchOneParamsDefaults'));
     return new this({ id: config.id })

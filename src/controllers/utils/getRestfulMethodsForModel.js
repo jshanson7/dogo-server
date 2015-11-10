@@ -2,36 +2,36 @@ import VError from 'verror';
 import paramsForCTX from './paramsForCTX';
 
 export default Model => ({
-  *list(next) {
-    this.body = yield Model
-      .fetch(paramsForCTX(this))
-      .catch(e => this.throw(new VError(e, 'fetch error'), 400));
+  async list(ctx, next) {
+    ctx.body = await Model
+      .fetch(paramsForCTX(ctx))
+      .catch(e => ctx.throw(new VError(e, 'fetch error'), 400));
 
-    yield next;
+    await next();
   },
 
-  *show(next) {
-    const model = yield Model
-      .fetchOne(paramsForCTX(this))
-      .catch(e => this.throw(new VError(e, 'fetchOne error'), 400));
+  async show(ctx, next) {
+    const model = await Model
+      .fetchOne(paramsForCTX(ctx))
+      .catch(e => ctx.throw(new VError(e, 'fetchOne error'), 400));
 
-    if (!model) { this.throw('Not found', 404); }
+    if (!model) { ctx.throw('Not found', 404); }
 
-    this.body = model;
-    yield next;
+    ctx.body = model;
+    await next();
   },
 
-  *create(next) {
-    this.body = yield Model.create(paramsForCTX(this))
-      .catch(e => this.throw(new VError(e, 'create error'), 400));
+  async create(ctx, next) {
+    ctx.body = await Model.create(paramsForCTX(ctx))
+      .catch(e => ctx.throw(new VError(e, 'create error'), 400));
 
-    yield next;
+    await next();
   },
 
-  *destroy(next) {
-    this.body = yield Model.destroy(paramsForCTX(this))
-      .catch(e => this.throw(new VError(e, 'destroy error'), 400));
+  async destroy(ctx, next) {
+    ctx.body = await Model.destroy(paramsForCTX(ctx))
+      .catch(e => ctx.throw(new VError(e, 'destroy error'), 400));
 
-    yield next;
+    await next();
   }
 });

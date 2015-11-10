@@ -1,5 +1,5 @@
-import Note from './note';
-import Dog from './dog';
+import Note from './Note';
+import Dog from './Dog';
 import createRestfulModel from './utils/createRestfulModel';
 
 export default createRestfulModel('User', {
@@ -16,7 +16,7 @@ export default createRestfulModel('User', {
 
   dogs() {
     return this.belongsToMany(Dog).through(Note);
-  },
+  }
 
 }, {
   schema: {
@@ -39,7 +39,7 @@ export default createRestfulModel('User', {
     fetch: ['notes', 'notes.dog'],
     fetchOne: ['notes', 'notes.dog']
   },
-  searchable: ['first_name', 'last_name'],
+  searchable: ['first_name', 'last_name']
 
   // login: Promise.method(function(email, password) {
   //   if (!email || !password) throw new Error('Email and password are both required');

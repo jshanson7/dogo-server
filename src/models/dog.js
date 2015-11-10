@@ -1,6 +1,6 @@
-import Note from './note';
-import User from './user';
-import Shelter from './shelter';
+import Note from './Note';
+import User from './User';
+import Shelter from './Shelter';
 import createRestfulModel from './utils/createRestfulModel';
 
 export default createRestfulModel('Dog', {

@@ -1,11 +1,11 @@
 import { merge } from 'lodash';
-import prototypeProperties from '../defaults/prototypeProperties';
-import classProperties from '../defaults/classProperties';
+import { default as defaultPrototypeProps } from '../defaults/prototypeProperties';
+import { default as defaultClassProps } from '../defaults/classProperties';
 import { getBookshelfConnection } from '../../db/bookshelf';
 
-export default (Name, protoProps, classProps) =>
+export default (Name, prototypeProps, classProps) =>
   getBookshelfConnection().model(
     Name,
-    merge({}, prototypeProperties, protoProps),
-    merge({}, classProperties, classProps)
+    merge({}, defaultPrototypeProps, prototypeProps),
+    merge({}, defaultClassProps, classProps)
   );

@@ -1,5 +1,5 @@
-import Dog from './dog';
-import User from './user';
+import Dog from './Dog';
+import User from './User';
 import createRestfulModel from './utils/createRestfulModel';
 
 export default createRestfulModel('Note', {
@@ -42,5 +42,5 @@ export default createRestfulModel('Note', {
     fetch: ['dog', 'author'],
     fetchOne: ['dog', 'author']
   },
-  searchable: ['text'],
+  searchable: ['text']
 });

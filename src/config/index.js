@@ -1,7 +1,6 @@
 import secrets from './secrets';
 import { env } from './app';
 
-export secrets from './secrets';
 export { env as env } from './app';
 export * as app from './app';
 export * as db from './db';

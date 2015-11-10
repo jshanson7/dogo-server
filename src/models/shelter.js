@@ -1,4 +1,4 @@
-import Dog from './dog';
+import Dog from './Dog';
 import createRestfulModel from './utils/createRestfulModel';
 
 export default createRestfulModel('Shelter', {
@@ -27,6 +27,5 @@ export default createRestfulModel('Shelter', {
     fetch: ['dogs'],
     fetchOne: ['dogs']
   },
-  searchable: ['name'],
-
+  searchable: ['name']
 });

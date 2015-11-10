@@ -1,7 +1,7 @@
-import User from '../models/user';
-import Dog from '../models/dog';
-import Shelter from '../models/shelter';
-import Note from '../models/note';
+import User from '../models/User';
+import Dog from '../models/Dog';
+import Shelter from '../models/Shelter';
+import Note from '../models/Note';
 import getRestfulMethodsForModel from './utils/getRestfulMethodsForModel';
 
 export const UserController = getRestfulMethodsForModel(User);

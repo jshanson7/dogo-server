@@ -1,9 +1,9 @@
-export default function *(next) {
+export default async (ctx, next) => {
   try {
-    yield next;
+    await next();
   } catch (err) {
-    this.status = err.status || 500;
-    this.body = err.message;
-    this.app.emit('error', err, this);
+    ctx.status = err.status || 500;
+    ctx.body = err.message;
+    ctx.app.emit('error', err, ctx);
   }
-}
+};

@@ -1,10 +1,10 @@
 import createModel from './createModel';
 import { merge } from 'lodash';
-import restfulClassProperties from '../defaults/restfulClassProperties';
+import { default as defaultRestfulClassProps } from '../defaults/restfulClassProperties';
 
-export default (Name, prototypeProperties, classProperties) =>
+export default (Name, prototypeProps, classProps) =>
   createModel(
     Name,
-    prototypeProperties,
-    merge({}, restfulClassProperties, classProperties)
+    prototypeProps,
+    merge({}, defaultRestfulClassProps, classProps)
   );

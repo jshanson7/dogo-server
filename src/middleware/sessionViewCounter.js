@@ -1,7 +1,7 @@
-export default function *(next) {
-  if (this.path === '/favicon.ico') { return; }
+export default async (ctx, next) => {
+  if (ctx.path === '/favicon.ico') { return; }
 
-  var n = this.session.views || 0;
-  this.session.views = ++n;
-  yield next;
-}
+  let current = ctx.session.views || 0;
+  ctx.session.views = ++current;
+  await next();
+};
