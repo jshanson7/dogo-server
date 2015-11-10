@@ -1,4 +1,4 @@
-import DogModel from '../../models/Dog';
+import DogModel from 'models/Dog';
 
 export const Dog = DogModel;
 

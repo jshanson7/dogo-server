@@ -1,4 +1,4 @@
-import { drop, create, migrateLatest } from '../../src/db/db';
+import { drop, create, migrateLatest } from 'db/db';
 
 export default () => drop()
   .catch(err => Promise.resolve(console.log(err.toString() + ', continuing...')))

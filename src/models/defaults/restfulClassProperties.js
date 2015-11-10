@@ -1,6 +1,6 @@
 import VError from 'verror';
 import { keys, has, difference, result, defaults } from 'lodash';
-import assertValid from '../../utils/assertValid';
+import assertValid from 'utils/assertValid';
 
 export default {
   schema: {},

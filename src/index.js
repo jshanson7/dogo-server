@@ -1,2 +1,2 @@
 require('babel/register');
-module.exports = require('./app').start();
+module.exports = require('app').start();

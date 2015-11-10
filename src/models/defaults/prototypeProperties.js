@@ -1,5 +1,5 @@
 import { result } from 'lodash';
-import assertValid from '../../utils/assertValid';
+import assertValid from 'utils/assertValid';
 
 export default {
   hasTimestamps: ['created_at', 'updated_at'],

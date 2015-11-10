@@ -1,9 +1,9 @@
 import co from 'co';
 
-export default asyncFunc =>
+export default asyncFn =>
   function* (next) {
     const ctx = this;
-    yield asyncFunc(ctx, co.wrap(function* () {
+    yield asyncFn(ctx, co.wrap(function* () {
       yield next;
     }));
   };

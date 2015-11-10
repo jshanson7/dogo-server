@@ -9,11 +9,11 @@ import graphqlHTTP from 'koa-graphql';
 import cors from 'koa-cors';
 import session from 'koa-session';
 import passport from 'koa-passport';
+import { env } from 'config';
+import schema from 'graphql/schema';
+import { IndexRouter } from 'routers';
 import errorHandler from './errorHandler';
 import sessionViewCounter from './sessionViewCounter';
-import { env } from '../config';
-import schema from '../graphql/schema';
-import { IndexRouter } from '../routers';
 
 export default app => {
   if (env === 'development' || env === 'staging') { app.use(convert(logger())); }

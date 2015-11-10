@@ -1,11 +1,11 @@
 import koaRouter from 'koa-router';
-import addRestfulRoutes from './utils/addRestfulRoutes';
+import convertAsyncToGenerator from 'utils/convertAsyncToGenerator';
 import {
   UserController,
   DogController,
   ShelterController,
   NoteController
-} from '../controllers';
+} from 'controllers';
 
 export const UserRouter = addRestfulRoutes(koaRouter(), UserController);
 export const DogRouter = addRestfulRoutes(koaRouter(), DogController);
@@ -17,3 +17,11 @@ export const IndexRouter = koaRouter()
   .use('/dogs', DogRouter.routes())
   .use('/shelters', ShelterRouter.routes())
   .use('/notes', NoteRouter.routes());
+
+function addRestfulRoutes(Router, Controller) {
+  return Router
+    .get('/', convertAsyncToGenerator(Controller.list))
+    .get('/:id', convertAsyncToGenerator(Controller.show))
+    .post('/', convertAsyncToGenerator(Controller.create))
+    .delete('/:id', convertAsyncToGenerator(Controller.destroy));
+}

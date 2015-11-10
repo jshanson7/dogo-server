@@ -1,6 +1,6 @@
 import Koa from 'koa';
-import { env, keys, port, host } from './config';
-import middleware from './middleware';
+import { env, keys, port, host } from 'config';
+import middleware from 'middleware';
 
 export const app = new Koa();
 

@@ -32,8 +32,8 @@
     "db:rebuild:all": "npm run db:drop:all && npm run db:build:all",
     "encrypt:secrets": "travis login --org && travis encrypt-file src/config/secrets.json src/config/secrets.json.enc --add",
     "lint": "npm run gulp -- lint",
-    "gulp": "node_modules/.bin/gulp",
-    "forever": "node_modules/.bin/forever"
+    "gulp": "NODE_PATH=src node_modules/.bin/gulp",
+    "forever": "NODE_PATH=src node_modules/.bin/forever"
   },
   "dependencies": {
     "babel-runtime": "^5.8.29",
@@ -80,6 +80,7 @@
     "supertest": "^1.1.0"
   },
   "babel": {
-    "stage": 0
+    "stage": 0,
+    "sourceRoot": "./src"
   }
 }

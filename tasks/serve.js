@@ -6,4 +6,9 @@ const app = resolve(__dirname, '../src');
 
 gulp.task('serve', ['nodemon']);
 gulp.task('serve:watch', ['nodemon']);
-gulp.task('nodemon', () => nodemon({ exec: 'node', script: app, watch: app }));
+gulp.task('nodemon', () => nodemon({
+  exec: 'node',
+  env: { NODE_PATH: app },
+  script: app,
+  watch: app
+}));

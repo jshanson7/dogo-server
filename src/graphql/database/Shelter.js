@@ -1,4 +1,4 @@
-import ShelterModel from '../../models/Shelter';
+import ShelterModel from 'models/Shelter';
 
 export const Shelter = ShelterModel;
 
