@@ -1,13 +1,7 @@
-import VError from 'verror';
 import validate from './validate';
+import assert from './assert';
 
-export default (object, schema, options, errorMessage) => {
-  const response = validate(object, schema, options);
-  if (response.valid) {
-    return response;
-  } else if (errorMessage) {
-    throw new VError(`${errorMessage}: \n\t%s`, response);
-  } else {
-    throw response;
-  }
+export default (object, schema, options, ...errorMessages) => {
+  const response = validate(object, schema, options, ...errorMessages);
+  assert(response.valid, response);
 };

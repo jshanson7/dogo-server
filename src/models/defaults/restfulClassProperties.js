@@ -64,12 +64,12 @@ export default {
         orderBy: {
           type: 'string',
           enum: attributes,
-          message: 'must be one of [' + attributes.join(', ') + ']'
+          message: `must be one of [${attributes.join(', ')}]`
         },
         direction: {
           type: 'string',
           enum: directions,
-          message: 'must be one of [' + directions.join(', ') + ']'
+          message: `must be one of [${directions.join(', ')}]`
         },
         limit: {
           type: 'integer',
@@ -84,7 +84,7 @@ export default {
           type: 'array',
           conform: value => difference(value, related).length === 0,
           messages: {
-            conform: 'must be a subset of [' + related.join(', ') + ']'
+            conform: `must be a subset of [${related.join(', ')}]`
           }
         },
         search: {
@@ -98,7 +98,7 @@ export default {
           conform: value => difference(value, this.searchable).length === 0,
           messages: {
             dependencies: 'search must also be present',
-            conform: 'must be a subset of [' + this.searchable.join(', ') + ']'
+            conform: `must be a subset of [${this.searchable.join(', ')}]`
           }
         }
       }
@@ -128,7 +128,7 @@ export default {
           type: 'array',
           conform: v => difference(v, related).length === 0,
           messages: {
-            conform: 'must be a subset of [' + related.join(', ') + ']'
+            conform: `must be a subset of [${related.join(', ')}]`
           }
         }
       }
