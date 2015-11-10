@@ -1,31 +1,30 @@
-import { defaults } from 'lodash';
-import Base from './base';
 import Note from './note';
 import User from './user';
 import Shelter from './shelter';
+import createRestfulModel from './utils/createRestfulModel';
 
-export default Base.extend({
+export default createRestfulModel('Dog', {
   tableName: 'dogs',
 
-  defaults: defaults({
+  defaults: {
     name: null,
     description: null,
     breed: null,
     dot_color: null,
     shelter_id: null
-  }, Base.prototype.defaults),
+  },
 
-  notes: function () {
+  notes() {
     return this.hasMany(Note);
   },
 
-  shelter: function () {
+  shelter() {
     return this.belongsTo(Shelter);
   },
 
-  users: function () {
+  users() {
     return this.belongsToMany(User).through(Note);
-  },
+  }
 
 }, {
   schema: {
@@ -59,5 +58,5 @@ export default Base.extend({
     fetch: ['shelter', 'notes', 'notes.author'],
     fetchOne: ['shelter', 'notes', 'notes.author']
   },
-  searchable: ['name', 'description', 'breed', 'dot_color'],
+  searchable: ['name', 'description', 'breed', 'dot_color']
 });

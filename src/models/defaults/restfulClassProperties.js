@@ -1,72 +1,59 @@
 import VError from 'verror';
 import { keys, has, difference, result, defaults } from 'lodash';
-import validate from '../utils/validate';
-import { bookshelfConn } from '../db/bookshelf';
+import assertValid from '../../utils/assertValid';
 
-export default bookshelfConn.Model.extend({
-  hasTimestamps: ['created_at', 'updated_at'],
-
-  defaults: {
-    created_at: null,
-    updated_at: null,
-  },
-
-  initialize() {
-    this.on('saving', this.validateSave);
-  },
-
-  validateSave() {
-    return validate(this.attributes, result(this.constructor, 'schema'));
-  }
-
-}, {
+export default {
   schema: {},
-  relations: {
-    fetch: [],
-    fetchOne: []
-  },
+  relations: { fetch: [], fetchOne: [] },
   searchable: [],
 
-  fetch(params) {
-    return validate(params, result(this, 'fetchParamsSchema'), { cast: true })
-      .catch(e => { throw new VError(e, 'invalid fetch params'); })
-      .then(() => {
-        const config = defaults({}, params, result(this, 'fetchParamsDefaults'));
-        const searchTerm = has(config, 'search') ? '%' + config.search + '%' : null;
-        return new this()
-          .query(queryBuilder => {
-            queryBuilder
-              .orderBy(config.orderBy, config.direction)
-              .offset(config.offset)
-              .limit(config.limit);
-            if (searchTerm) {
-              config.searchBy.forEach(attribute => queryBuilder.orWhere(attribute, 'ilike', searchTerm));
-            }
-          })
-          .fetchAll({ withRelated: config.withRelated });
-      });
+  async fetch(params) {
+    assertValid(params, result(this, 'fetchParamsSchema'), { cast: true }, 'invalid fetch params');
+
+    const config = defaults({}, params, result(this, 'fetchParamsDefaults'));
+    const searchTerm = has(config, 'search') ? '%' + config.search + '%' : null;
+
+    return new this()
+      .query(queryBuilder => {
+        queryBuilder
+          .orderBy(config.orderBy, config.direction)
+          .offset(config.offset)
+          .limit(config.limit);
+
+        if (searchTerm) {
+          config.searchBy.forEach(attribute => queryBuilder.orWhere(attribute, 'ilike', searchTerm));
+        }
+      })
+      .fetchAll({ withRelated: config.withRelated });
   },
 
-  fetchOne(params) {
-    return validate(params, result(this, 'fetchOneParamsSchema'), { cast: true })
-      .catch(e => { throw new VError(e, 'invalid fetchOne params'); })
-      .then(() => {
-        const config = defaults({}, params, result(this, 'fetchOneParamsDefaults'));
-        return new this({ id: config.id })
-          .fetch({ withRelated: config.withRelated });
-      });
+  async fetchOne(params) {
+    assertValid(params, result(this, 'fetchOneParamsSchema'), { cast: true }, 'invalid fetchOne params');
+
+    const config = defaults({}, params, result(this, 'fetchOneParamsDefaults'));
+    return new this({ id: config.id })
+      .fetch({ withRelated: config.withRelated });
   },
 
-  create(params) {
+  async create(params) {
     return new this()
       .save(params, { method: 'insert' })
       .catch(e => { throw new VError(e, 'invalid create params'); });
   },
 
-  fetchAll(params) {
-    return new this(params)
-      .fetchAll({ withRelated: this.relations.fetch });
+  async destroy(params) {
+    const model = await this.fetchOne(params);
+    const response = model.toJSON();
+
+    await model.destroy();
+
+    return response;
   },
+
+  // fetchAll(params) {
+  //   return new this(params)
+  //     .fetchAll({ withRelated: this.relations.fetch });
+  // },
 
   fetchParamsSchema() {
     const attributes = keys(this.prototype.defaults);
@@ -154,4 +141,4 @@ export default bookshelfConn.Model.extend({
     };
   }
 
-});
+};

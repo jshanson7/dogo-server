@@ -1,7 +1,13 @@
-import bookshelf from 'bookshelf';
+import Bookshelf from 'bookshelf';
 import { connect } from './db';
 
-const conn = connect();
+let bookshelfConnection;
 
-export const bookshelfConn = bookshelf(conn);
-export const close = conn.destroy;
+export function getBookshelfConnection() {
+  return bookshelfConnection ||
+    (bookshelfConnection = Bookshelf(connect()).plugin('registry'));
+}
+
+export function close() {
+  return bookshelfConnection.knex.destroy();
+}

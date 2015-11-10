@@ -34,71 +34,96 @@ const restOptions = [
     requiredRelations: ['dog', 'user'],
     valid: require('../data/notes_valid.json'),
     invalid: require('../data/notes_invalid.json'),
-    created: []
+    created: [],
+    canDelete: true
   }
 ];
-
-const addRelations = (model, relations) =>
-  relations.reduce(
-    (modifiedModel, relation) =>
-      set(modifiedModel, `${relation}_id`, sample(findWhere(restOptions, { model: relation }).created).id),
-    model
-  );
-
-const responseEqual = (model, response) =>
-  isEqual(model, omit(response, generatedAttrs));
-
 
 describe('e2e', () => {
 
   before(resetDB);
 
-  restOptions.forEach(restOpt => describe(`${restOpt.endpoint} endpoint`, () => {
+  restOptions.forEach(restOpt =>
 
-    it(`should start with zero ${restOpt.endpoint}`, done =>
-      request()
-        .get(`/api/v1/${restOpt.endpoint}`)
-        .expect(200)
-        .end((err, res) => {
-          if (err) { return done(err); }
-          if (res.body.length !== 0) { return done(new Error('should be zero')); }
-          done();
-        })
+    describe(`${restOpt.endpoint} endpoint`, () => {
+
+      it(`should start with zero ${restOpt.endpoint}`, done =>
+        request()
+          .get(`/api/v1/${restOpt.endpoint}`)
+          .expect(200)
+          .end((err, res) => {
+            if (err) { return done(err); }
+            if (res.body.length !== 0) { return done(new Error('should be zero')); }
+            done();
+          })
       );
 
-    restOpt.invalid.forEach((model, index) =>
-      it(`should fail to create invalid model ${index}`, done =>
-        request()
-          .post(`/api/v1/${restOpt.endpoint}`)
-          .send(restOpt.requiredRelations ? addRelations(model, restOpt.requiredRelations) : model)
-          .expect(400, done)
-      ));
+      restOpt.invalid.forEach((model, index) =>
+        it(`should fail to create invalid model ${index}`, done =>
+          request()
+            .post(`/api/v1/${restOpt.endpoint}`)
+            .send(restOpt.requiredRelations ? addRelations(model, restOpt.requiredRelations) : model)
+            .expect(400, done)
+        )
+      );
 
-    restOpt.valid.forEach((model, index) =>
-      it(`should create valid model ${index}`, done =>
-        request()
-          .post(`/api/v1/${restOpt.endpoint}`)
-          .send(restOpt.requiredRelations ? addRelations(model, restOpt.requiredRelations) : model)
-          .expect(200)
-          .end((err, res) => {
-            if (err) { return done(err); }
-            if (!responseEqual(model, res.body)) { return done(new Error(`created model ${index} doesn't match input`)); }
-            restOpt.created[index] = res.body;
-            done();
-          })
-      ));
+      restOpt.valid.forEach((model, index) =>
+        it(`should create valid model ${index}`, done =>
+          request()
+            .post(`/api/v1/${restOpt.endpoint}`)
+            .send(restOpt.requiredRelations ? addRelations(model, restOpt.requiredRelations) : model)
+            .expect(200)
+            .end((err, res) => {
+              if (err) { return done(err); }
+              if (!responseEqual(model, res.body)) { return done(new Error(`create model ${index} response doesn't match input`)); }
+              restOpt.created[index] = res.body;
+              done();
+            })
+        )
+      );
 
-    restOpt.valid.forEach((model, index) =>
-      it(`should fetch created model ${index}`, done =>
-        request()
-          .get(`/api/v1/${restOpt.endpoint}/${restOpt.created[index].id}`)
-          .expect(200)
-          .end((err, res) => {
-            if (err) { return done(err); }
-            if (!responseEqual(model, res.body)) { return done(new Error(`fetched model ${index} doesn't match created`)); }
-            done();
-          })
-      ));
+      restOpt.valid.forEach((model, index) =>
+        it(`should fetch created model ${index}`, done =>
+          request()
+            .get(`/api/v1/${restOpt.endpoint}/${restOpt.created[index].id}`)
+            .expect(200)
+            .end((err, res) => {
+              if (err) { return done(err); }
+              if (!responseEqual(model, res.body)) { return done(new Error(`fetched model ${index} doesn't match created`)); }
+              done();
+            })
+        )
+      );
 
-  }));
+      if (restOpt.canDelete) {
+        // just 'notes', since the other models w/ relation pointers will error at the moment
+        restOpt.valid.forEach((model, index) =>
+          it(`should destroy created model ${index}`, done =>
+            request()
+              .delete(`/api/v1/${restOpt.endpoint}/${restOpt.created[index].id}`)
+              .expect(200)
+              .end((err, res) => {
+                if (err) { return done(err); }
+                if (!responseEqual(model, res.body)) { return done(new Error(`deleted model ${index} response doesn't match created`)); }
+                done();
+              })
+          )
+        );
+      }
+    })
+  );
+
 });
+
+
+function addRelations(model, relations) {
+  return relations.reduce(
+    (modifiedModel, relation) =>
+      set(modifiedModel, `${relation}_id`, sample(findWhere(restOptions, { model: relation }).created).id),
+    model
+  );
+}
+
+function responseEqual(model, response) {
+  return isEqual(model, omit(response, generatedAttrs));
+}

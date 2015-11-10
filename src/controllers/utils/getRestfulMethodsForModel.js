@@ -22,25 +22,16 @@ export default Model => ({
   },
 
   *create(next) {
-    const result = yield Model.create(paramsForCTX(this))
+    this.body = yield Model.create(paramsForCTX(this))
       .catch(e => this.throw(new VError(e, 'create error'), 400));
 
-    this.body = result;
     yield next;
   },
 
   *destroy(next) {
-    const model = yield Model
-      .fetchOne(paramsForCTX(this))
-      .catch(e => this.throw(new VError(e, 'fetchOne error'), 400));
-
-    if (!model) { this.throw('Not found', 404); }
-
-    const result = yield model
-      .destroy()
+    this.body = yield Model.destroy(paramsForCTX(this))
       .catch(e => this.throw(new VError(e, 'destroy error'), 400));
 
-    this.body = result;
     yield next;
   }
 });

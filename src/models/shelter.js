@@ -1,17 +1,16 @@
-import { defaults } from 'lodash';
-import Base from './base';
 import Dog from './dog';
+import createRestfulModel from './utils/createRestfulModel';
 
-export default Base.extend({
+export default createRestfulModel('Shelter', {
   tableName: 'shelters',
 
-  defaults: defaults({
+  defaults: {
     name: null,
-  }, Base.prototype.defaults),
-
-  dogs: function () {
-    return this.hasMany(Dog);
   },
+
+  dogs() {
+    return this.hasMany(Dog);
+  }
 
 }, {
   schema: {

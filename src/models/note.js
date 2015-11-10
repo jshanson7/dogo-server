@@ -1,22 +1,21 @@
-import { defaults } from 'lodash';
 import Dog from './dog';
 import User from './user';
-import Base from './base';
+import createRestfulModel from './utils/createRestfulModel';
 
-export default Base.extend({
+export default createRestfulModel('Note', {
   tableName: 'notes',
 
-  defaults: defaults({
+  defaults: {
     text: null,
     dog_id: null,
     user_id: null,
-  }, Base.prototype.defaults),
+  },
 
-  dog: function () {
+  dog() {
     return this.belongsTo(Dog);
   },
 
-  author: function () {
+  author() {
     return this.belongsTo(User);
   }
 
