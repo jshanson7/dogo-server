@@ -10,6 +10,7 @@ export default {
   },
 
   validateSave() {
-    return !!assertValid(this.attributes, result(this.constructor, 'schema'), null, 'error validating attributes on save');
+    assertValid(this.attributes, result(this.constructor, 'schema'), null, 'error validating attributes on save');
+    return true;
   }
 };
