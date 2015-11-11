@@ -1,4 +1,4 @@
-import secrets from './secrets';
+import secrets from './secrets.json';
 import { prefix, env } from './app';
 
 export const name = prefix + env;

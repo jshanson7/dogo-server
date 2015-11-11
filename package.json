@@ -9,8 +9,8 @@
     "rebuild": "npm run gulp -- rebuild",
     "build:staging": "NODE_ENV=staging npm run build",
     "dev": "npm run gulp -- dev",
-    "prod": "NODE_ENV=production npm run forever -- start ./src",
-    "prod:stop": "NODE_ENV=production npm run forever -- stop ./src",
+    "prod": "NODE_ENV=production npm run forever -- start .",
+    "prod:stop": "NODE_ENV=production npm run forever -- stop .",
     "compile": "npm run gulp -- compile",
     "compile:watch": "npm run gulp -- compile:watch",
     "test": "NODE_ENV=test npm run gulp -- test",
@@ -33,7 +33,7 @@
     "encrypt:secrets": "travis login --org && travis encrypt-file src/config/secrets.json src/config/secrets.json.enc --add",
     "lint": "npm run gulp -- lint",
     "gulp": "NODE_PATH=src node_modules/.bin/gulp",
-    "node": "NODE_PATH=src node src",
+    "node": "NODE_PATH=src node .",
     "forever": "NODE_PATH=src node_modules/.bin/forever"
   },
   "dependencies": {
