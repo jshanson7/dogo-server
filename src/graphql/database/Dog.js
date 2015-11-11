@@ -7,5 +7,5 @@ export async function getDog(id) {
 }
 
 export async function getDogs() {
-  return (await Dog.fetchAll()).toJSON();
+  return (await (new Dog()).fetchAll()).toJSON();
 }

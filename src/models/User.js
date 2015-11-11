@@ -1,8 +1,8 @@
 import Note from './Note';
 import Dog from './Dog';
-import createRestfulModel from './utils/createRestfulModel';
+import { createModel } from './utils';
 
-export default createRestfulModel('User', {
+export default createModel('User', {
   tableName: 'users',
 
   defaults: {
@@ -35,11 +35,18 @@ export default createRestfulModel('User', {
       }
     }
   },
-  relations: {
-    fetch: ['notes', 'notes.dog'],
-    fetchOne: ['notes', 'notes.dog']
-  },
-  searchable: ['first_name', 'last_name']
+
+  restOptions: {
+    relations: ['notes', 'notes.dog'],
+    searchableAttributes: ['first_name', 'last_name'],
+    listParamDefaults: {
+      searchBy: ['first_name', 'last_name'],
+      withRelated: ['notes', 'notes.dog']
+    },
+    showParamDefaults: {
+      withRelated: ['notes', 'notes.dog']
+    }
+  }
 
   // login: Promise.method(function(email, password) {
   //   if (!email || !password) throw new Error('Email and password are both required');

@@ -33,6 +33,7 @@
     "encrypt:secrets": "travis login --org && travis encrypt-file src/config/secrets.json src/config/secrets.json.enc --add",
     "lint": "npm run gulp -- lint",
     "gulp": "NODE_PATH=src node_modules/.bin/gulp",
+    "node": "NODE_PATH=src node src",
     "forever": "NODE_PATH=src node_modules/.bin/forever"
   },
   "dependencies": {

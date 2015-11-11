@@ -6,7 +6,7 @@ import { introspectionQuery, printSchema } from 'graphql/utilities';
 const dbDir = resolve(__dirname, '../../src/db');
 const graphqlDir = resolve(__dirname, '../../src/graphql');
 const getSchema = () => require(resolve(graphqlDir, 'schema'));
-const closeConnections = () => require(resolve(dbDir, 'bookshelf')).close();
+const closeConnections = () => require(dbDir).close();
 
 export default async () => {
   const Schema = getSchema();

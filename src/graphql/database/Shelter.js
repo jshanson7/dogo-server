@@ -7,5 +7,5 @@ export async function getShelter(id) {
 }
 
 export async function getShelters() {
-  return (await Shelter.fetchAll()).toJSON();
+  return (await (new Shelter()).fetchAll()).toJSON();
 }

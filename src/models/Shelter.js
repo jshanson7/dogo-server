@@ -1,7 +1,7 @@
 import Dog from './Dog';
-import createRestfulModel from './utils/createRestfulModel';
+import { createModel } from './utils';
 
-export default createRestfulModel('Shelter', {
+export default createModel('Shelter', {
   tableName: 'shelters',
 
   defaults: {
@@ -23,9 +23,16 @@ export default createRestfulModel('Shelter', {
       }
     }
   },
-  relations: {
-    fetch: ['dogs'],
-    fetchOne: ['dogs']
-  },
-  searchable: ['name']
+
+  restOptions: {
+    relations: ['dogs'],
+    searchableAttributes: ['name'],
+    listParamDefaults: {
+      searchBy: ['name'],
+      withRelated: ['dogs']
+    },
+    showParamDefaults: {
+      withRelated: ['dogs']
+    }
+  }
 });

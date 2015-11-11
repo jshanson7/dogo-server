@@ -7,7 +7,7 @@ import {
   seed,
   migrateLatest,
   migrateRollback
-} from 'db/db';
+} from 'db';
 
 gulp.task('db:build', cb => seq('db:create', 'db:migrate:latest', 'db:seed', cb));
 gulp.task('db:rebuild', cb => seq('db:drop', 'db:build', cb));

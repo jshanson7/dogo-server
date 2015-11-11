@@ -3,11 +3,11 @@ import UserModel from 'models/User';
 export const User = UserModel;
 
 export async function getUser(id) {
-  return (await User.fetchOne({ id: id })).toJSON();
+  return (await User.show({ id: id })).toJSON();
 }
 
 export async function getUsers() {
-  return (await User.fetchAll()).toJSON();
+  return (await (new User()).fetchAll()).toJSON();
 }
 
 // export function createUser(user) {

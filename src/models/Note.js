@@ -1,8 +1,8 @@
 import Dog from './Dog';
 import User from './User';
-import createRestfulModel from './utils/createRestfulModel';
+import { createModel } from './utils';
 
-export default createRestfulModel('Note', {
+export default createModel('Note', {
   tableName: 'notes',
 
   defaults: {
@@ -38,9 +38,16 @@ export default createRestfulModel('Note', {
       }
     }
   },
-  relations: {
-    fetch: ['dog', 'author'],
-    fetchOne: ['dog', 'author']
-  },
-  searchable: ['text']
+
+  restOptions: {
+    relations: ['dog', 'author'],
+    searchableAttributes: ['text'],
+    listParamDefaults: {
+      searchBy: ['text'],
+      withRelated: ['dog', 'author']
+    },
+    showParamDefaults: {
+      withRelated: ['dog', 'author']
+    }
+  }
 });
