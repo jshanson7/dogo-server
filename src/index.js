@@ -1,2 +1,3 @@
-require('babel/register');
-module.exports = require('app').start();
+var babelConfig = require('../babelConfig');
+require('babel/register')(babelConfig);
+module.exports = require('./app').start();

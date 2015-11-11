@@ -10,7 +10,7 @@ import cors from 'koa-cors';
 import session from 'koa-session';
 import passport from 'koa-passport';
 import { env } from 'config';
-import schema from 'graphql/schema';
+import schema from 'graphql/schema.js';
 import { IndexRouter } from 'routers';
 import errorHandler from './errorHandler';
 import sessionViewCounter from './sessionViewCounter';
