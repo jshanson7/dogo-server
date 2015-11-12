@@ -66,6 +66,7 @@
     "babel": "^5.8.29",
     "babel-eslint": "^4.1.3",
     "babel-relay-plugin": "^0.3.0",
+    "babel-resolver": "0.0.14",
     "chance": "^0.7.7",
     "coveralls": "^2.11.4",
     "eslint": "^1.5.0",
