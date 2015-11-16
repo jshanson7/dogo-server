@@ -6,7 +6,7 @@ let secrets;
 try {
   secrets = require('./secrets.json');
 } catch (e) {
-  throw new VError(e, `Can't find src/config/secrets.json.  Make a copy of src/config/secrets.json.example.`)
+  throw new VError(e, `Can't find src/config/secrets.json.  Make a copy of src/config/secrets.json.example.`);
 }
 
 export const name = prefix + env;
