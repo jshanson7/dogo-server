@@ -1,13 +1,5 @@
-import VError from 'verror';
+import secrets from './secrets.json';
 import { prefix, env } from './app';
-
-let secrets;
-
-try {
-  secrets = require('./secrets.json');
-} catch (e) {
-  throw new VError(e, `Can't find src/config/secrets.json.  Make a copy of src/config/secrets.json.example.`);
-}
 
 export const name = prefix + env;
 export const client = 'postgresql';

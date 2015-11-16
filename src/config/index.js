@@ -1,5 +1,13 @@
-import secrets from './secrets';
+import VError from 'verror';
 import { env } from './app';
+
+let secrets;
+
+try {
+  secrets = require('./secrets.json');
+} catch (e) {
+  throw new VError(e, `Make a copy of src/config/secrets.json.example.`);
+}
 
 export { env as env } from './app';
 export * as app from './app';
