@@ -3,7 +3,7 @@ import Chance from 'chance';
 import breeds from '../breeds';
 
 const chance = Chance();
-const numberOfSeeds = 100;
+const numberOfSeeds = 500;
 
 const users = [
   {
