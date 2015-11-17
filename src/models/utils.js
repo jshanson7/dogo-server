@@ -16,12 +16,11 @@ export function createModel(Name, prototypeProperties, classProperties) {
       this.on('saving', this.validateSave);
     },
     validateSave() {
-      assertValid(
+      return assertValid(
         this.attributes,
-        result(this.constructor, 'schema'),
+        result(classProperties, 'schema'),
         'error validating attributes on save'
       );
-      return true;
     }
   };
 
