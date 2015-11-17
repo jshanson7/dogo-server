@@ -1,14 +1,10 @@
 import VError from 'verror';
 import validate from 'utils/validate';
 import paramsForCTX from 'utils/paramsForCTX';
-import {
-  showParamsSchemaForModel,
-  showParamsDefaultsForModel
-} from './show';
 
 export function destroyForModel(Model) {
-  const paramsSchema = destroyParamsSchemaForModel(Model);
-  const paramsDefaults = destroyParamsDefaultsForModel(Model);
+  const paramsSchema = { properties: { id: { required: true, type: 'integer' } } };
+  const paramsDefaults = { withRelated: [] };
 
   return async function destroy(ctx, next) {
     const params = paramsForCTX(ctx);
@@ -34,12 +30,4 @@ export function destroyForModel(Model) {
 
     await next();
   };
-}
-
-export function destroyParamsSchemaForModel(Model) {
-  return showParamsSchemaForModel(Model);
-}
-
-export function destroyParamsDefaultsForModel(Model) {
-  return showParamsDefaultsForModel(Model);
 }

@@ -24,15 +24,5 @@ export default createModel('Shelter', {
     }
   },
 
-  restOptions: {
-    relations: ['dogs'],
-    searchableAttributes: ['name'],
-    listParamDefaults: {
-      searchBy: ['name'],
-      withRelated: ['dogs']
-    },
-    showParamDefaults: {
-      withRelated: ['dogs']
-    }
-  }
+  relations: ['dogs']
 });

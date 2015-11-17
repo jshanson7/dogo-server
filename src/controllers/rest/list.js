@@ -1,11 +1,18 @@
 import VError from 'verror';
-import { has, keys, difference } from 'lodash';
+import { has, difference } from 'lodash';
 import validate from 'utils/validate';
 import paramsForCTX from 'utils/paramsForCTX';
 
-export function listForModel(Model) {
-  const paramsSchema = listParamsSchemaForModel(Model);
-  const paramsDefaults = listParamsDefaultsForModel(Model);
+export function listForModel(Model, defaultParams) {
+  const paramsSchema = listParamsSchema(Model);
+  const defaults = Object.assign({
+    orderBy: 'updated_at',
+    direction: 'desc',
+    limit: 20,
+    offset: 0,
+    searchBy: [],
+    withRelated: []
+  }, defaultParams);
 
   return async function list(ctx, next) {
     const params = paramsForCTX(ctx);
@@ -15,7 +22,7 @@ export function listForModel(Model) {
       ctx.throw(new VError(paramsValidation, 'list error'), 400);
     }
 
-    const config = Object.assign({}, paramsDefaults, params);
+    const config = Object.assign({}, defaults, params);
     const searchTerm = has(config, 'search') ? '%' + config.search + '%' : null;
 
     ctx.body = await new Model()
@@ -38,11 +45,12 @@ export function listForModel(Model) {
   };
 }
 
-export function listParamsSchemaForModel(Model) {
-  const attributes = keys(Model.prototype.defaults);
-  const relations = Model.restOptions.relations;
-  const searchableAttributes = Model.restOptions.searchableAttributes;
+function listParamsSchema(Model) {
+  const attributes = Object.keys(Model.schema.properties);
+  const relations = Model.relations;
+  const searchableAttributes = attributes.filter(attr => Model.schema.properties[attr].type === 'string');
   const directions = ['asc', 'desc'];
+
   return {
     properties: {
       orderBy: {
@@ -87,17 +95,4 @@ export function listParamsSchemaForModel(Model) {
       }
     }
   };
-}
-
-export function listParamsDefaultsForModel(Model) {
-  const defaultDefaults = {
-    orderBy: 'updated_at',
-    direction: 'desc',
-    limit: 20,
-    offset: 0,
-    searchBy: [],
-    withRelated: []
-  };
-
-  return Object.assign(defaultDefaults, Model.restOptions.listParamDefaults);
 }

@@ -36,17 +36,7 @@ export default createModel('User', {
     }
   },
 
-  restOptions: {
-    relations: ['notes', 'notes.dog'],
-    searchableAttributes: ['first_name', 'last_name'],
-    listParamDefaults: {
-      searchBy: ['first_name', 'last_name'],
-      withRelated: ['notes', 'notes.dog']
-    },
-    showParamDefaults: {
-      withRelated: ['notes', 'notes.dog']
-    }
-  }
+  relations: ['notes', 'notes.dog']
 
   // login: Promise.method(function(email, password) {
   //   if (!email || !password) throw new Error('Email and password are both required');

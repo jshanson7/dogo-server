@@ -39,15 +39,5 @@ export default createModel('Note', {
     }
   },
 
-  restOptions: {
-    relations: ['dog', 'author'],
-    searchableAttributes: ['text'],
-    listParamDefaults: {
-      searchBy: ['text'],
-      withRelated: ['dog', 'author']
-    },
-    showParamDefaults: {
-      withRelated: ['dog', 'author']
-    }
-  }
+  relations: ['dog', 'author']
 });

@@ -55,16 +55,5 @@ export default createModel('Dog', {
     }
   },
 
-  restOptions: {
-    relations: ['shelter', 'notes', 'notes.author'],
-    searchableAttributes: ['name', 'description', 'breed', 'dot_color'],
-    listParamDefaults: {
-      searchBy: ['name', 'description', 'breed', 'dot_color'],
-      withRelated: ['shelter', 'notes', 'notes.author']
-    },
-    showParamDefaults: {
-      withRelated: ['shelter', 'notes', 'notes.author']
-    }
-  }
-
+  relations: ['shelter', 'notes', 'notes.author']
 });

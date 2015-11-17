@@ -3,9 +3,9 @@ import { difference } from 'lodash';
 import validate from 'utils/validate';
 import paramsForCTX from 'utils/paramsForCTX';
 
-export function showForModel(Model) {
+export function showForModel(Model, defaultParams) {
   const paramsSchema = showParamsSchemaForModel(Model);
-  const paramsDefaults = showParamsDefaultsForModel(Model);
+  const defaults = Object.assign({ withRelated: [] }, defaultParams);
 
   return async function show(ctx, next) {
     const params = paramsForCTX(ctx);
@@ -15,7 +15,7 @@ export function showForModel(Model) {
       ctx.throw(new VError(paramsValidation, 'show error'), 400);
     }
 
-    const config = Object.assign({}, paramsDefaults, params);
+    const config = Object.assign({}, defaults, params);
     const model = await new Model({ id: config.id })
       .fetch({ withRelated: config.withRelated })
       .catch(e => ctx.throw(new VError(e, 'show error'), 400));
@@ -28,8 +28,8 @@ export function showForModel(Model) {
   };
 }
 
-export function showParamsSchemaForModel(Model) {
-  const relations = Model.restOptions.relations;
+function showParamsSchemaForModel(Model) {
+  const relations = Model.relations;
   return {
     properties: {
       id: {
@@ -46,11 +46,3 @@ export function showParamsSchemaForModel(Model) {
     }
   };
 }
-
-export function showParamsDefaultsForModel(Model) {
-  const defaultDefaults = { withRelated: [] };
-
-  return Object.assign(defaultDefaults, Model.restOptions.showParamDefaults);
-}
-
-
