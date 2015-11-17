@@ -4,10 +4,7 @@ import assertValid from 'utils/assertValid';
 
 export function createModel(Name, prototypeProperties, classProperties) {
   const defaultPrototypeProperties = {
-    hasTimestamps: [
-      'created_at',
-      'updated_at'
-    ],
+    hasTimestamps: ['created_at', 'updated_at'],
     defaults: {
       created_at: null,
       updated_at: null
@@ -24,11 +21,9 @@ export function createModel(Name, prototypeProperties, classProperties) {
     }
   };
 
-  const defaultClassProperties = { schema: {} };
-
   return bookshelf().model(
     Name,
     merge(defaultPrototypeProperties, prototypeProperties),
-    merge(defaultClassProperties, classProperties)
+    Object.assign({ schema: {}, relations: [] }, classProperties)
   );
 }

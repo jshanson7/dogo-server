@@ -1,7 +1,7 @@
 import { GraphQLObjectType } from 'graphql';
 import App from './App';
 import { nodeField } from '../nodeDefinitions';
-import { getApp } from '../database';
+import { getApp } from '../data';
 
 export default new GraphQLObjectType({
   name: 'Root',
