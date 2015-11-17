@@ -1,4 +1,4 @@
-import fs from 'fs';
+import { writeFileSync } from 'fs';
 import { resolve, join } from 'path';
 import { graphql } from 'graphql';
 import { introspectionQuery, printSchema } from 'graphql/utilities';
@@ -9,23 +9,23 @@ const getSchema = () => require(resolve(graphqlDir, 'schema'));
 const closeConnections = () => require(dbDir).close();
 
 export default async () => {
-  const Schema = getSchema();
+  const schema = getSchema();
   // Save JSON of full schema introspection for Babel Relay Plugin to use
-  var result = await graphql(Schema, introspectionQuery);
+  var result = await graphql(schema, introspectionQuery);
   if (result.errors) {
     throw new Error(`Error introspecting schema: ${JSON.stringify(result.errors, null, 2)}`);
 
   } else {
 
-    fs.writeFileSync(
+    writeFileSync(
       join(graphqlDir, './schema.json'),
       JSON.stringify(result, null, 2)
     );
 
     // Save user readable type system shorthand of schema
-    fs.writeFileSync(
+    writeFileSync(
       join(graphqlDir, './schema.graphql'),
-      printSchema(Schema)
+      printSchema(schema)
     );
   }
 
