@@ -16,8 +16,14 @@ export const drop = async () => await dropDBWithName(name);
 export const migrateLatest = async () => await getWrappedDBConnection(conn => conn.migrate.latest());
 export const migrateRollback = async () => await getWrappedDBConnection(conn => conn.migrate.rollback());
 export const seed = async () => await getWrappedDBConnection(conn => conn.seed.run());
-export const createDBWithName = async dbName => await getWrappedPGConnection(conn => conn.raw('CREATE DATABASE ' + dbName));
-export const dropDBWithName = async dbName => await getWrappedPGConnection(conn => conn.raw('DROP DATABASE ' + dbName));
+
+export const createDBWithName = async dbName => {
+  return await getWrappedPGConnection(conn => conn.raw('CREATE DATABASE ' + dbName));
+}
+
+export const dropDBWithName = async dbName => {
+  return await getWrappedPGConnection(conn => conn.raw('DROP DATABASE ' + dbName));
+}
 
 export const closeDBConnection = async () => {
   if (dbConnection) {
