@@ -1,28 +1,24 @@
 import Dog from './Dog';
 import { createModel } from './utils';
 
-export default createModel('Shelter', {
-  tableName: 'shelters',
-
-  defaults: {
-    name: null,
+export default createModel({
+  prototypeProps: {
+    tableName: 'shelters',
+    defaults: { name: null, },
+    dogs() { return this.hasMany(Dog); }
   },
-
-  dogs() {
-    return this.hasMany(Dog);
-  }
-
-}, {
-  schema: {
-    properties: {
-      name: {
-        required: true,
-        type: 'string',
-        minLength: 1,
-        maxLength: 70
+  classProps: {
+    Name: 'Shelter',
+    relations: ['dogs'],
+    schema: {
+      properties: {
+        name: {
+          required: true,
+          type: 'string',
+          minLength: 1,
+          maxLength: 70
+        }
       }
     }
-  },
-
-  relations: ['dogs']
+  }
 });

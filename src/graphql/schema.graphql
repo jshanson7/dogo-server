@@ -14,6 +14,7 @@ type App implements Node {
   users(after: String, first: Int, before: String, last: Int): UserConnection
   shelters(after: String, first: Int, before: String, last: Int): ShelterConnection
   dogs(after: String, first: Int, before: String, last: Int): DogConnection
+  notes(after: String, first: Int, before: String, last: Int): NoteConnection
 }
 
 type Dog implements Node {
@@ -37,6 +38,21 @@ type Mutation {
 
 interface Node {
   id: ID!
+}
+
+type Note implements Node {
+  id: ID!
+  text: String
+}
+
+type NoteConnection {
+  pageInfo: PageInfo!
+  edges: [NoteEdge]
+}
+
+type NoteEdge {
+  node: Note
+  cursor: String!
 }
 
 type PageInfo {

@@ -1,7 +1,7 @@
 import { GraphQLObjectType } from 'graphql';
-import AddUser from './AddUser';
+import { AddUser } from './AddUser';
 
-export default new GraphQLObjectType({
+export const RootMutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
     addUser: AddUser

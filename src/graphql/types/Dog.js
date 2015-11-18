@@ -2,11 +2,13 @@ import { GraphQLObjectType, GraphQLString } from 'graphql';
 import {
   // connectionArgs,
   // connectionFromArray,
-  globalIdField
+  globalIdField,
+  connectionDefinitions
 } from 'graphql-relay';
-import { nodeInterface } from '../nodeDefinitions';
+import Dog from 'models/Dog';
+import { nodeInterface, typesByModel } from '../nodeDefinitions';
 
-export default new GraphQLObjectType({
+export const DogType = new GraphQLObjectType({
   name: 'Dog',
   description: 'A dog.',
   fields: () => ({
@@ -22,3 +24,7 @@ export default new GraphQLObjectType({
   }),
   interfaces: [nodeInterface]
 });
+
+export const { connectionType: DogConnection } = connectionDefinitions({ name: 'Dog', nodeType: DogType });
+
+typesByModel.set(Dog, DogType);

@@ -1,24 +1,22 @@
 import { fromGlobalId, nodeDefinitions } from 'graphql-relay';
-import { getApp, getOne } from 'data';
 import * as models from 'models';
-import { App as AppType, User as UserType, Shelter as ShelterType } from './types';
 
-const { App, User, Shelter } = models;
+export const typesByModel = new Map();
 
 export const { nodeInterface, nodeField } = nodeDefinitions(
-  async (globalId) => {
+  async function getInstanceForGlobalId(globalId) {
+    console.log('getInstanceForGlobalId', arguments);
     const { type, id } = fromGlobalId(globalId);
-    return type === 'App' ?
-      await getApp() :
-      await getOne(models[type], id);
+    const Model = models[type];
+    return Model ? await Model.get(id) : null;
   },
-  (obj) => {
-    console.log('obj', obj);
-    switch (true) {
-      case obj instanceof App: return AppType;
-      case obj instanceof User: return UserType;
-      case obj instanceof Shelter: return ShelterType;
-      default: return null;
+  function getTypeForInstance(instance) {
+    console.log('getTypeForInstance', arguments);
+    for (let Model of models) {
+      if (instance instanceof Model) {
+        return typesByModel.get(Model);
+      }
     }
+    return null;
   }
 );

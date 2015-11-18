@@ -1,8 +1,9 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
-import { globalIdField } from 'graphql-relay';
-import { nodeInterface } from '../nodeDefinitions';
+import { globalIdField, connectionDefinitions } from 'graphql-relay';
+import Shelter from 'models/Shelter';
+import { nodeInterface, typesByModel } from '../nodeDefinitions';
 
-export default new GraphQLObjectType({
+export const ShelterType = new GraphQLObjectType({
   name: 'Shelter',
   description: 'A dog shelter',
   fields: () => ({
@@ -13,3 +14,7 @@ export default new GraphQLObjectType({
   }),
   interfaces: [nodeInterface]
 });
+
+export const { connectionType: ShelterConnection } = connectionDefinitions({ name: 'Shelter', nodeType: ShelterType });
+
+typesByModel.set(Shelter, ShelterType);

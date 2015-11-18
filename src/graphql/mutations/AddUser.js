@@ -1,9 +1,9 @@
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
-import { User } from '../types';
-import { getUser, createUser } from 'data';
+import { UserType } from '../types/User';
+import User from 'models/User';
 
-export default mutationWithClientMutationId({
+export const AddUser = mutationWithClientMutationId({
   name: 'AddUser',
   inputFields: {
     first_name: {
@@ -15,11 +15,9 @@ export default mutationWithClientMutationId({
   },
   outputFields: {
     user: {
-      type: User,
-      resolve: (payload) => getUser(payload.id)
+      type: UserType,
+      resolve: async (payload) => await User.get(payload.id)
     }
   },
-  mutateAndGetPayload: (user) => {
-    return createUser(user);
-  }
+  mutateAndGetPayload: async (data) => await User.create(data)
 });

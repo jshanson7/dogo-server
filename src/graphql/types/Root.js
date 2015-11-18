@@ -1,15 +1,16 @@
 import { GraphQLObjectType } from 'graphql';
-import App from './App';
+import { AppType } from './App';
 import { nodeField } from '../nodeDefinitions';
-import { getApp } from 'data';
 
-export default new GraphQLObjectType({
+const app = {};
+
+export const RootType = new GraphQLObjectType({
   name: 'Root',
   fields: () => ({
     node: nodeField,
     app: {
-      type: App,
-      resolve: getApp,
+      type: AppType,
+      resolve: () => app,
     },
   }),
 });
