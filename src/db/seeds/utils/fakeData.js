@@ -1,5 +1,5 @@
 import { range, sample, pluck } from 'lodash';
-import { connect } from 'db';
+import { knex } from 'db';
 import Chance from 'chance';
 import breeds from './breeds';
 
@@ -71,6 +71,6 @@ export async function generateNotes(count, dogIDs, userIDs) {
 }
 
 async function insert(table, data) {
-  const result = await connect()(table).insert(data).returning('*');
+  const result = await knex()(table).insert(data).returning('*');
   return data instanceof Array ? result : result[0];
 }

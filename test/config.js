@@ -9,5 +9,5 @@ export default {
     NODE_PATH: resolve(__dirname, '../src')
   },
   compilers: 'js:babel/register',
-  timeout: 5000
+  timeout: 10000
 };
