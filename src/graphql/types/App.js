@@ -1,7 +1,7 @@
 import { GraphQLObjectType } from 'graphql';
 import { connectionArgs, connectionFromArray, globalIdField } from 'graphql-relay';
 import { nodeInterface } from '../nodeDefinitions';
-import { getUsers, getShelters, getDogs } from '../data';
+import { getUsers, getShelters, getDogs } from 'data';
 import ShelterConnection from './ShelterConnection';
 import UserConnection from './UserConnection';
 import DogConnection from './DogConnection';

@@ -1,4 +1,4 @@
-exports.up = knex => {
+export function up(knex) {
   return knex.schema.createTable('dogs', t => {
     t.increments('id').primary();
     // t.uuid('uuid').primary();
@@ -12,8 +12,8 @@ exports.up = knex => {
     // t.json('note_ids');
     t.timestamps();
   });
-};
+}
 
-exports.down = knex => {
+export function down(knex) {
   return knex.schema.dropTable('dogs');
-};
+}

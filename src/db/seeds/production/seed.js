@@ -1,3 +1,3 @@
-exports.seed = (knex, Promise) => {
+export function seed(knex, Promise) {
   return Promise.resolve();
-};
+}

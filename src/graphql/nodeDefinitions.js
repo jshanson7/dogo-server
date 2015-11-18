@@ -1,31 +1,24 @@
 import { fromGlobalId, nodeDefinitions } from 'graphql-relay';
-import {
-  getApp,
-  getUser,
-  getShelter,
-  App,
-  User,
-  Shelter
-} from './data';
-import {
-  App as AppType,
-  User as UserType,
-  Shelter as ShelterType
-} from './types';
+import { getApp, getOne } from 'data';
+import * as models from 'models';
+import { App as AppType, User as UserType, Shelter as ShelterType } from './types';
+
+const { App, User, Shelter } = models;
 
 export const { nodeInterface, nodeField } = nodeDefinitions(
   async (globalId) => {
     const { type, id } = fromGlobalId(globalId);
-    switch (type) {
-      case 'App': return await getApp();
-      case 'User': return await getUser(id);
-      case 'Shelter': return await getShelter(id);
+    return type === 'App' ?
+      await getApp() :
+      await getOne(models[type], id);
+  },
+  (obj) => {
+    console.log('obj', obj);
+    switch (true) {
+      case obj instanceof App: return AppType;
+      case obj instanceof User: return UserType;
+      case obj instanceof Shelter: return ShelterType;
       default: return null;
     }
-  },
-  (obj) => ({
-    [obj instanceof App]: AppType,
-    [obj instanceof User]: UserType,
-    [obj instanceof Shelter]: ShelterType
-  }[true])
+  }
 );

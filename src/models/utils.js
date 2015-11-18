@@ -24,6 +24,6 @@ export function createModel(Name, prototypeProperties, classProperties) {
   return bookshelf().model(
     Name,
     merge(defaultPrototypeProperties, prototypeProperties),
-    Object.assign({ schema: {}, relations: [] }, classProperties)
+    Object.assign({ Name, schema: {}, relations: [] }, classProperties)
   );
 }

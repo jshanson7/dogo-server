@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import { env } from '../src/config/app';
 
 export default {
-  reporter: 'dot',
+  // reporter: 'dot',
   harmony: true,
   env: {
     NODE_ENV: env === 'staging' ? 'staging' : 'test',

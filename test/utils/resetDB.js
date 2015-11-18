@@ -1,8 +1,9 @@
-import { drop, create, migrateLatest } from '../../src/db';
+import { connect } from 'db';
 
-export default () => drop()
-  .catch(err => Promise.resolve(console.log(err.toString() + ', continuing...')))
-  .then(() => create()
-    .catch(err => Promise.resolve(console.log(err.toString() + ', continuing...')))
-    .then(() => migrateLatest())
-  );
+export default async function resetDB() {
+  const conn = connect();
+  const tables = ['notes', 'dogs', 'shelters', 'users'];
+  for (let table of tables) {
+    await conn(table).del();
+  }
+};
