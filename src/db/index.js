@@ -19,11 +19,11 @@ export const seed = async () => await getWrappedDBConnection(conn => conn.seed.r
 
 export const createDBWithName = async dbName => {
   return await getWrappedPGConnection(conn => conn.raw('CREATE DATABASE ' + dbName));
-}
+};
 
 export const dropDBWithName = async dbName => {
   return await getWrappedPGConnection(conn => conn.raw('DROP DATABASE ' + dbName));
-}
+};
 
 export const closeDBConnection = async () => {
   if (dbConnection) {
