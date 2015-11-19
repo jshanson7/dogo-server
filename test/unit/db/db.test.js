@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   bookshelf,
   knex,
-  pg,
+  postgres,
   // close,
   // create,
   // drop,
@@ -36,7 +36,7 @@ describe('db', () => {
     expect(knex()).to.exist;
   });
 
-  it(`pg()`, async () => {
-    expect(pg()).to.exist;
+  it(`postgres()`, async () => {
+    expect(postgres()).to.exist;
   });
 });

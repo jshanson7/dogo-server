@@ -4,13 +4,13 @@ import * as models from 'models';
 export const typesByModel = new Map();
 
 export const { nodeInterface, nodeField } = nodeDefinitions(
-  async function getInstanceForGlobalId(globalId) {
+  async (globalId) => {
     console.log('getInstanceForGlobalId', arguments);
     const { type, id } = fromGlobalId(globalId);
     const Model = models[type];
     return Model ? await Model.get(id) : null;
   },
-  function getTypeForInstance(instance) {
+  (instance) => {
     console.log('getTypeForInstance', arguments);
     for (let Model of models) {
       if (instance instanceof Model) {

@@ -7,46 +7,48 @@ let bookshelfInstance;
 let dbConnection;
 let pgConnection;
 
-export const bookshelf = () => bookshelfInstance || (bookshelfInstance = Bookshelf(knex()).plugin('registry'));
-export const knex = () => dbConnection || (dbConnection = Knex(knexConf));
-export const pg = () => pgConnection || (pgConnection = Knex({ client, connection: { host } }));
-export const close = async () => await* [closeDBConnection(), closePGConnection()];
-export const create = async () => await createDBWithName(name);
-export const drop = async () => await dropDBWithName(name);
-export const migrateLatest = async () => await getWrappedDBConnection(conn => conn.migrate.latest());
-export const migrateRollback = async () => await getWrappedDBConnection(conn => conn.migrate.rollback());
-export const seed = async () => await getWrappedDBConnection(conn => conn.seed.run());
+export function bookshelf() { return bookshelfInstance || (bookshelfInstance = Bookshelf(knex()).plugin('registry')); }
+export function knex() { return dbConnection || (dbConnection = Knex(knexConf)); }
+export function postgres() { return pgConnection || (pgConnection = Knex({ client, connection: { host } })); }
+export async function close() { return await* [closeDBConnection(), closePGConnection()]; }
+export async function create() { return await createDBWithName(name); }
+export async function drop() { return await dropDBWithName(name); }
+export async function migrateLatest() { return await getWrappedDBConnection(conn => conn.migrate.latest()); }
+export async function migrateRollback() { return await getWrappedDBConnection(conn => conn.migrate.rollback()); }
+export async function seed() { return await getWrappedDBConnection(conn => conn.seed.run()); }
 
-export const createDBWithName = async dbName => {
+export async function createDBWithName(dbName) {
   return await getWrappedPGConnection(conn => conn.raw('CREATE DATABASE ' + dbName));
-};
+}
 
-export const dropDBWithName = async dbName => {
+export async function dropDBWithName(dbName) {
   return await getWrappedPGConnection(conn => conn.raw('DROP DATABASE ' + dbName));
-};
+}
 
-export const closeDBConnection = async () => {
+export async function closeDBConnection() {
   if (dbConnection) {
     const conn = dbConnection;
     dbConnection = undefined;
     await conn.destroy();
   }
-};
+}
 
-export const closePGConnection = async () => {
+export async function closePGConnection() {
   if (pgConnection) {
     const conn = pgConnection;
     pgConnection = undefined;
     await conn.destroy();
   }
-};
+}
 
-export const getWrappedDBConnection = async promise =>
-  await promise(knex())
+export async function getWrappedDBConnection(promise) {
+  return await promise(knex())
     .catch(err => closeDBConnection().then(() => Promise.reject(err)))
     .then(res => closeDBConnection().then(() => Promise.resolve(res)));
+}
 
-export const getWrappedPGConnection = async promise =>
-  await promise(pg())
+export async function getWrappedPGConnection(promise) {
+  return await promise(postgres())
     .catch(err => closePGConnection().then(() => Promise.reject(err)))
     .then(res => closePGConnection().then(() => Promise.resolve(res)));
+}
